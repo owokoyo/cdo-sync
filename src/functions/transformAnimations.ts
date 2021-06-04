@@ -19,6 +19,8 @@ function transformAnimations(animations_: any, config: config) {
     frameDelay?: number;
     frameCount?: number;
     _key?: string;
+    version?: string;
+    categories?: string[];
   }) {
     if (anim.isTemplate) {
       return;
@@ -47,6 +49,12 @@ function transformAnimations(animations_: any, config: config) {
       looping: anim.looping || true,
       frameDelay: anim.frameDelay ? anim.frameDelay : 4,
     };
+    if (anim.categories) {
+      animations.propsByKey[id].categories = anim.categories;
+    }
+    if (anim.version) {
+      animations.propsByKey[id].version = anim.version;
+    }
   });
   return animations;
 }

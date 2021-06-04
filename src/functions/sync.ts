@@ -58,6 +58,7 @@ type Anim = {
   looping: boolean;
   frameDelay: number;
   version?: string;
+  categories?: string[];
   //"version": "MEo47kNdNfboBKypWSHxJ4zPN0ozr4oL"
 };
 async function updateAnimations(animations: {
