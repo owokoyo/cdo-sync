@@ -50,4 +50,31 @@ async function updateSourceFile(compiledCode: string, config: config) {
   createFile(join("internal", "source.json"), JSON.stringify(source));
 }
 
-export { syncSource, syncMetadata, updateAndSyncSource, updateSourceFile };
+type Anim = {
+  name: string;
+  sourceUrl: string;
+  frameSize: { x: number; y: number };
+  frameCount: number;
+  looping: boolean;
+  frameDelay: number;
+  version?: string;
+  //"version": "MEo47kNdNfboBKypWSHxJ4zPN0ozr4oL"
+};
+async function updateAnimations(animations: {
+  orderedKeys: string[];
+  propsByKey: { [s: string]: Anim };
+}) {
+  const source = JSON.parse(readFile(join("internal", "source.json"))!);
+
+  source.animations = animations;
+  createFile(join("internal", "source.json"), JSON.stringify(source));
+}
+
+export {
+  syncSource,
+  syncMetadata,
+  updateAndSyncSource,
+  updateSourceFile,
+  updateAnimations,
+  Anim,
+};

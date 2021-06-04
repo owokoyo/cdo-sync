@@ -4,6 +4,7 @@ import tsconfig from "./tsconfig";
 import { compilerType, projectType } from "./types";
 import * as fsExtra from "fs-extra";
 import path = require("path");
+import { Anim } from "./sync";
 function createProject(
   compilerType: compilerType,
   cookie: string,
@@ -38,22 +39,36 @@ function createProject(
 
   createDirectory("internal");
 
-  let sourceJSON, metadataJSON;
+  let sourceJSON: {
+      source: string;
+      html?: string;
+      animations?: { orderedKeys: string[]; propsByKey: { [s: string]: Anim } };
+      generatedProperties: {};
+      libraries: [];
+      typescriptSource?: string;
+    },
+    metadataJSON;
   try {
     sourceJSON = JSON.parse(source);
   } catch (e) {
     if (projectType === "gamelab") {
       sourceJSON = {
         source: "",
-        animations: { orderedKeys: [], propsByKey: [] },
+        animations: { orderedKeys: [], propsByKey: {} },
         generatedProperties: {},
         libraries: [],
       };
-    } else if (projectType === "applab") {
-      sourceJSON = { source: "" };
+    } else if (projectType === "applab" || true) {
+      sourceJSON = {
+        source: "",
+        html: "",
+        generatedProperties: {},
+        libraries: [],
+      };
     }
     vscode.window.showErrorMessage("Source was malformed. Attempting to fix.");
   }
+
   try {
     metadataJSON = JSON.parse(metadata);
   } catch (e) {
@@ -61,9 +76,9 @@ function createProject(
     vscode.window.showErrorMessage("Metadata was malformed.");
   }
   let tssource: string | undefined;
-  if (sourceJSON.typeScriptSource) {
-    tssource = sourceJSON.typeScriptSource;
-    delete sourceJSON.typeScriptSource;
+  if (sourceJSON.typescriptSource) {
+    tssource = sourceJSON.typescriptSource;
+    delete sourceJSON.typescriptSource;
   }
 
   createFile("internal/metadata.json", JSON.stringify(metadataJSON, null, 1));
@@ -101,6 +116,16 @@ function createProject(
 
   if (projectType === "gamelab") {
     createDirectory("animations");
+    createFile(
+      "animations/animations.json",
+      JSON.stringify(
+        (sourceJSON.animations!.orderedKeys as string[]).map((key) => {
+          return { _id: key, ...sourceJSON.animations!.propsByKey[key] };
+        }),
+        null,
+        1
+      )
+    );
   } else if (projectType === "applab") {
     createFile(
       "design.html",

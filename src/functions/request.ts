@@ -1,5 +1,7 @@
+import FormData = require("form-data");
 import fetch from "node-fetch";
-import { window } from "vscode";
+import * as vscode from "vscode";
+import * as fs from "fs";
 
 function getCSRF(projectId: string, cookie: string) {
   return fetch(`https://studio.code.org/projects/gamelab/${projectId}/edit`, {
@@ -67,7 +69,7 @@ function syncSource(
     body: source,
     method: "PUT",
   });
-  window.showInformationMessage("Updating Source");
+  vscode.window.showInformationMessage("Updating Source");
 }
 
 function syncMetadata(
@@ -95,7 +97,50 @@ function syncMetadata(
     body: metadata,
     method: "PUT",
   });
-  window.showInformationMessage("Updating Metadata");
+  vscode.window.showInformationMessage("Updating Metadata");
 }
 
-export { getCSRF, getMetadata, getSource, syncSource, syncMetadata };
+function uploadFileAsAnimation(
+  absFilePath: string,
+  fileName: string,
+  csrf: string,
+  channelId: string,
+  cookie: string
+) {
+  vscode.window.showInformationMessage("Uploading: " + fileName);
+  var form = new FormData();
+  form.setBoundary("----WebKitFormBoundaryEN53T9q0vZBGYpR1");
+  form.append("files[]", fs.readFileSync(absFilePath), fileName);
+  return fetch(
+    `https://studio.code.org/v3/animations/${channelId}/${fileName}`,
+    {
+      headers: {
+        accept: "*/*",
+        "accept-language": "en-US,en;q=0.9",
+        "content-type":
+          "multipart/form-data; boundary=----WebKitFormBoundaryEN53T9q0vZBGYpR1",
+        "sec-ch-ua":
+          '" Not A;Brand";v="99", "Chromium";v="90", "Google Chrome";v="90"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-origin",
+        "x-csrf-token": csrf,
+        "x-newrelic-id": "UQYGVVBQGwAHXFZRAQU=",
+        "x-requested-with": "XMLHttpRequest",
+        cookie: cookie,
+      },
+      body: form,
+      method: "POST",
+    }
+  );
+}
+
+export {
+  getCSRF,
+  getMetadata,
+  getSource,
+  syncSource,
+  syncMetadata,
+  uploadFileAsAnimation,
+};
