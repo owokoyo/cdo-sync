@@ -10,7 +10,7 @@ import {
 } from "../functions/sync";
 import { getCSRF, uploadFileAsAnimation } from "../functions/request";
 import state from "../functions/state";
-import { window } from "vscode";
+import * as vscode from "vscode";
 import { readFile } from "../functions/fs";
 import { v4 as uuid } from "uuid";
 import imageSize from "image-size";
@@ -73,7 +73,13 @@ export default async function startInWatch() {
               }, 200);
             }
           }
-          debounces[fileName]();
+          if (readFile("animations/" + fileName)) {
+            debounces[fileName]();
+          } else {
+            vscode.window.showInformationMessage(
+              fileName + " appears to have been deleted"
+            );
+          }
         }
       );
     } else if (config.projectType === "applab") {
@@ -85,7 +91,7 @@ export default async function startInWatch() {
             const source = JSON.parse(readFile("internal/source.json")!);
             source.html = newHtml;
           } else {
-            window.showErrorMessage("Cannot find workspace/design.html");
+            vscode.window.showErrorMessage("Cannot find workspace/design.html");
           }
         }, 200)
       );
@@ -95,7 +101,7 @@ export default async function startInWatch() {
     function close(hideWarning?: true) {
       if (isClosed) {
         if (!hideWarning) {
-          window.showWarningMessage("File watchers are already closed.");
+          vscode.window.showWarningMessage("File watchers are already closed.");
         }
         return;
       }
@@ -103,9 +109,11 @@ export default async function startInWatch() {
       process.close();
       sourceWatcher.close();
       metadataWatcher.close();
-      window.showInformationMessage("(Hopefully) closed all watchers.");
+      vscode.window.showInformationMessage("(Hopefully) closed all watchers.");
       isClosed = true;
+      state.watcherOpen = false;
     }
+    state.watcherOpen = true;
     state.closeWatcher = close;
   }
 }

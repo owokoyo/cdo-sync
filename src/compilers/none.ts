@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import { readFile } from "../functions/fs";
+import * as vscode from "vscode";
 
 function transform(s: string) {
   return s;
@@ -14,6 +15,7 @@ function watch(rootPath: string, update: (newCode: string) => void) {
       last = newCode;
     }
   });
+  vscode.window.showInformationMessage("Watching (Compiler: None)");
   function close() {
     watcher.close();
   }

@@ -6,6 +6,7 @@ import initProject from "./commands/init";
 import { setCookie, setId } from "./commands/setConfigItem";
 import startInWatch from "./commands/start";
 import closeWatcher from "./commands/stop";
+import syncAnimations from "./commands/syncAnimations";
 import updateProject from "./commands/update";
 import { syncMetadata, updateAndSyncSource } from "./functions/sync";
 
@@ -29,6 +30,11 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand("cdo-sync.syncSource", updateAndSyncSource)
   );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("cdo-sync.syncAnimations", syncAnimations)
+  );
+
   context.subscriptions.push(
     vscode.commands.registerCommand("cdo-sync.syncMetadata", syncMetadata)
   );

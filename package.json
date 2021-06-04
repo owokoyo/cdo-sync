@@ -16,7 +16,8 @@
     "onCommand:cdo-sync.start",
     "onCommand:cdo-sync.update",
     "onCommand:cdo-sync.syncMetadata",
-    "onCommand:cdo-sync.syncSource"
+    "onCommand:cdo-sync.syncSource",
+    "onCommand:cdo-sync.syncAnimations"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -35,15 +36,19 @@
       },
       {
         "command": "cdo-sync.update",
-        "title": "cdo-sync: Update project."
+        "title": "cdo-sync: Retrieve project."
       },
       {
         "command": "cdo-sync.syncSource",
-        "title": "cdo-sync: Sync source."
+        "title": "cdo-sync: Update source."
+      },
+      {
+        "command": "cdo-sync.syncAnimations",
+        "title": "cdo-sync: Update animations."
       },
       {
         "command": "cdo-sync.syncMetadata",
-        "title": "cdo-sync: Sync metadata."
+        "title": "cdo-sync: Update metadata."
       },
       {
         "command": "cdo-sync.setCookie",
