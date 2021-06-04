@@ -9,7 +9,7 @@ function transform(s: string) {
 function watch(rootPath: string, update: (newCode: string) => void) {
   let last = "";
   const watcher = fs.watch(rootPath + "/workspace/main.js", {}, () => {
-    const newCode = readFile("out/out.js");
+    const newCode = readFile("workspace/main.js");
     if (newCode && last !== newCode) {
       update(newCode);
       last = newCode;

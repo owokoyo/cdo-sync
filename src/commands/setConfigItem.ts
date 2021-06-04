@@ -3,17 +3,19 @@ import * as vscode from "vscode";
 import { createFile, readFile } from "../functions/fs";
 import getConfig from "../functions/getConfig";
 
-async function setCookie() {
+async function setAuth() {
   const config = await getConfig();
   if (config) {
-    const cookie = await vscode.window.showInputBox({
-      placeHolder: "Cookie",
+    let cookie = await vscode.window.showInputBox({
+      placeHolder: "_learn_session cookie value",
       ignoreFocusOut: true,
     });
+
     if (!cookie) {
-      vscode.window.showErrorMessage("Must specify user cookie.");
+      vscode.window.showErrorMessage("Must specify _learn_session.");
       return;
     }
+    cookie = "_learn_session=" + cookie;
     const configJSON = JSON.parse(readFile("cdo-sync-config.json")!);
     configJSON.cookie = cookie;
     createFile("cdo-sync-config.json", JSON.stringify(configJSON, null, 1));
@@ -42,4 +44,4 @@ async function setId() {
   }
 }
 
-export { setCookie, setId };
+export { setAuth, setId };

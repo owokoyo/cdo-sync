@@ -13,14 +13,17 @@ export default async function initProject() {
     vscode.window.showErrorMessage("Must specify channel id.");
     return;
   }
-  const cookie = await vscode.window.showInputBox({
-    placeHolder: "Cookie",
+
+  let cookie = await vscode.window.showInputBox({
+    placeHolder: "_learn_session cookie value",
     ignoreFocusOut: true,
   });
+
   if (!cookie) {
-    vscode.window.showErrorMessage("Must specify user cookie.");
+    vscode.window.showErrorMessage("Must specify _learn_session.");
     return;
   }
+  cookie = "_learn_session=" + cookie;
 
   let compilerType = (await vscode.window.showQuickPick(
     ["typescript", "babel", "none"],

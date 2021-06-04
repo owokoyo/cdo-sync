@@ -3,7 +3,7 @@
 import * as vscode from "vscode";
 
 import initProject from "./commands/init";
-import { setCookie, setId } from "./commands/setConfigItem";
+import { setAuth, setId } from "./commands/setConfigItem";
 import startInWatch from "./commands/start";
 import closeWatcher from "./commands/stop";
 import syncAnimations from "./commands/syncAnimations";
@@ -40,7 +40,7 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("cdo-sync.setCookie", setCookie)
+    vscode.commands.registerCommand("cdo-sync.setAuth", setAuth)
   );
   context.subscriptions.push(
     vscode.commands.registerCommand("cdo-sync.setId", setId)
