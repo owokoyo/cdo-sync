@@ -128,7 +128,7 @@ function createProject(
     );
   } else if (projectType === "applab") {
     createFile(
-      "design.html",
+      "workspace/design.html",
       JSON.parse(source).html ||
         `<div id="designModeViz" class="appModern clip-content" tabindex="1" data-radium="true" style="width: 320px; height:
     450px;">
