@@ -18,7 +18,8 @@
     "onCommand:cdo-sync.syncMetadata",
     "onCommand:cdo-sync.syncSource",
     "onCommand:cdo-sync.syncAnimations",
-    "onCommand:cdo-sync.addLibrary"
+    "onCommand:cdo-sync.addLibrary",
+    "onCommand:cdo-sync.removeLibrary"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -62,6 +63,10 @@
       {
         "command": "cdo-sync.addLibrary",
         "title": "cdo-sync: Add Library To Project"
+      },
+      {
+        "command": "cdo-sync.removeLibrary",
+        "title": "cdo-sync: Remove Library From Project"
       }
     ]
   },

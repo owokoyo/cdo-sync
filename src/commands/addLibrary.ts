@@ -36,7 +36,7 @@ export default async function updateProject() {
       let library: library;
       if (libraryVersion === "@latest") {
         library = await getLibrary(channelId);
-      } else if (libraryVersion && libraryVersion.match(/(.+?) \(/)![1] in versionsArray) {
+      } else if (libraryVersion && libraryVersion in versionsArray) {
         library = await getLibrary(channelId, libraryVersion.match(/(.+?) \(/)![1]);
       } else {
         return vscode.window.showErrorMessage("Not a valid version id.");
