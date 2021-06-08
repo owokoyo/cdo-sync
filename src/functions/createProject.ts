@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { createFile, createDirectory } from "./fs";
-import tsconfig from "./tsconfig";
+import tsconfig from "../resources/tsconfig.json";
 import { compilerType, projectType } from "./types";
 import * as fsExtra from "fs-extra";
 import path = require("path");
@@ -40,13 +40,13 @@ function createProject(
   createDirectory("internal");
 
   let sourceJSON: {
-      source: string;
-      html?: string;
-      animations?: { orderedKeys: string[]; propsByKey: { [s: string]: Anim } };
-      generatedProperties: {};
-      libraries: [];
-      typescriptSource?: string;
-    },
+    source: string;
+    html?: string;
+    animations?: { orderedKeys: string[]; propsByKey: { [s: string]: Anim } };
+    generatedProperties: {};
+    libraries: [];
+    typescriptSource?: string;
+  },
     metadataJSON;
   try {
     sourceJSON = JSON.parse(source);
@@ -102,7 +102,7 @@ function createProject(
       );
       createFile("workspace/main-old.js", sourceJSON.source);
     }
-    createFile("tsconfig.json", tsconfig);
+    createFile("tsconfig.json", JSON.stringify(tsconfig, null, 1));
 
     const wsPath = vscode.workspace.workspaceFolders![0].uri.fsPath; // gets the path of the first workspace folder
 
@@ -130,7 +130,7 @@ function createProject(
     createFile(
       "workspace/design.html",
       JSON.parse(source).html ||
-        `<div id="designModeViz" class="appModern clip-content" tabindex="1" data-radium="true" style="width: 320px; height:
+      `<div id="designModeViz" class="appModern clip-content" tabindex="1" data-radium="true" style="width: 320px; height:
     450px;">
   <div class="screen" tabindex="1" data-theme="default" id="screen1" style="display: block; height: 450px; width: 320px;
       left: 0px; top: 0px; position: absolute; z-index: 0; ">
