@@ -102,7 +102,7 @@ function createProject(
       );
       createFile("workspace/main-old.js", sourceJSON.source);
     }
-    createFile("workspace/tsconfig.json", tsconfig);
+    createFile("tsconfig.json", tsconfig);
 
     const wsPath = vscode.workspace.workspaceFolders![0].uri.fsPath; // gets the path of the first workspace folder
 
