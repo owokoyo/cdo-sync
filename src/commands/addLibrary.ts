@@ -1,8 +1,10 @@
 import * as vscode from "vscode";
+import addProjectLibrary from "../functions/addProjectLibrary";
 import getConfig from "../functions/getConfig";
 import { getLibrary, getLibraryVersions } from "../functions/request";
 import { transformLibraries } from "../functions/sync";
 import { library } from "../functions/types";
+import libs from "../resources/libraries.json";
 
 export default async function addLibrary() {
   const config = await getConfig();
@@ -41,18 +43,19 @@ export default async function addLibrary() {
       } else {
         return vscode.window.showErrorMessage("Not a valid version id.");
       }
-      transformLibraries((libs) => {
-        const libLength = libs.length;
-        libs.filter(val => val.channelId === channelId);
-        if (libLength !== libs.length) {
-          vscode.window.showWarningMessage(`Library ${library.name} (${channelId}) already exists. Replacing.`);
-        }
-        vscode.window.showInformationMessage(`Added ${library.name}!`);
-        libs.push(library);
-        return libs;
-      });
+      addProjectLibrary(library);
     } else if (libraryType === "Built-In Libraries") {
-
+      const libResult = await vscode.window.showQuickPick(Object.keys(libs));
+      if (libResult) {
+        const lib = (libs as { [s: string]: any })[libResult];
+        if (lib.getChannelId) {
+          addProjectLibrary(await getLibrary(lib.getChannelId));
+        } else {
+          addProjectLibrary(lib);
+        }
+      } else {
+        return vscode.window.showErrorMessage("Not a valid built-in library.");
+      }
     } else {
       vscode.window.showErrorMessage("Not valid library type.");
     }
