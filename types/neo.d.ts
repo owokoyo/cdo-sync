@@ -9,5 +9,5 @@ declare namespace Neo {
 	type easeOut = "ease out" // | "eo"
 	type easeInOut = "ease in out"
 
-	function animate(id: string, property: rotationAlias | alphaAlias | blurAlias, from: value, to: number, time: number, fps: number, interp: linear | easeIn | easeOut | easeInOut)
+	function animate(id: string, property: rotationAlias | alphaAlias | blurAlias, from: value, to: number, time: number, fps: number, interp: linear | easeIn | easeOut | easeInOut): void
 }

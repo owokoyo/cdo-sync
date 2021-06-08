@@ -1,4 +1,4 @@
-import "./applab"
+//import "./applab"
 //Auto-generated with a bit of refining
 /*
 declare function getType(ex){
@@ -64,7 +64,7 @@ document.write(appOptions.dropletConfig.blocks.filter(e=>!e.block&&!e.blockPrefi
 }).join("<br><br>"))
 */
 
-declare function onEvent(id: ElementId, type: "click" | "change" | "keyup" | "keydown" | "keypress" | "mousemove" | "mousedown" | "mouseup" | "mouseover" | "mouseout" | "input", callback: (event: UIEvent) => void): void
+//declare function onEvent(id: ElementId, type: "click" | "change" | "keyup" | "keydown" | "keypress" | "mousemove" | "mousedown" | "mouseup" | "mouseover" | "mouseout" | "input", callback: (event: UIEvent) => void): void
 
 declare function button(id: ElementId, text: string): void
 
@@ -172,7 +172,7 @@ declare function setAlpha(imgData: ImgData, x: number, y: number, a: number): vo
 
 declare function setRGB(imgData: ImgData, x: number, y: number, r: number, g: number, b: number): void
 
-declare function getColumn(table: string, column: string): void
+//declare function getColumn(table: string, column: string): string[]
 
 /*
 declare function startWebRequest(url: string, callback: function): void
@@ -266,11 +266,20 @@ declare function timedLoop(ms: number, callback: () => void): number
 
 declare function stopTimedLoop(id?: number): void
 
-declare function insertItem(list: [], index: number, item: any): void
+/**
+ * @deprecated Use Array.splice losers
+ */
+declare function insertItem<t>(list: t[], index: number, item: any): void
 
-declare function appendItem(list: [], item: any): void
+/**
+ * @deprecated Use Array.push losers
+ */
+declare function appendItem<t>(list: t[], item: any): void
 
-declare function removeItem(list: [], index: number): void
+/**
+ * @deprecated Use Array.splice() losers
+ */
+declare function removeItem<t>(list: t[], index: number): void
 
 declare function imageUploadButton(id: ElementId, text: string): void
 

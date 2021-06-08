@@ -3,11 +3,11 @@
 declare namespace Baron {
 	type Status = "success" | "timeout" | "error" | string
 	type UpdateCallback = (status: string, result: object) => void
-	type ResultCallback = (result) => void
+	type ResultCallback = (result: unknown) => void
 
 	type ConnectionUpdateCallback = (method: string) => void
 	type ConnectionReceiveCallback = (status: string, result: object, init: boolean) => void
-	type ConnectionEventCallback = (value) => void
+	type ConnectionEventCallback = (value: unknown) => void
 
 	type HttpGetOptions = { headers?: object, type?: "json" | string }
 	type HttpPostOptions = { body: string } //& HttpOptions
@@ -16,7 +16,7 @@ declare namespace Baron {
 
 	class PendingResult {
 		readonly status: Status
-		readonly result
+		readonly result: unknown
 
 		update: UpdateCallback
 		success: ResultCallback
@@ -40,7 +40,7 @@ declare namespace Baron {
 		interval: number //= 1000
 
 		/** Closes the connection */
-		close()
+		close(): void
 
 		//_update(method: "update" | "close" | string, opts: object)
 	}
@@ -67,8 +67,8 @@ declare namespace Baron {
 	function createInterfaceURL(url: string, instructions?: InterfaceInstructions): Interface
 
 	function getIdentity(callback: (ip: string) => void): void
-	function httpGet(url: string, options: HttpGetOptions, callback: (response) => void): void
-	function httpPost(url: string, options: HttpGetOptions, callback: (response) => void): void
+	function httpGet(url: string, options: HttpGetOptions, callback: (response: unknown) => void): void
+	function httpPost(url: string, options: HttpGetOptions, callback: (response: unknown) => void): void
 
 	function getSource(channel: string, callback: (source: object) => void): void
 	function getMetadata(channel: string, callback: (metadata: object) => void): void

@@ -101,8 +101,8 @@ declare namespace Nom {
 	function getType(id: string): baseType
 	function create<typeName extends baseType>(type: typeName): mapNameToElement<typeName>
 	function get<typeName extends baseType>(id: string, type: typeName): mapNameToElement<typeName>
-	function createType(type: { extends?: typeof elementTypes.element, element?: (id: string, ...args: unknown[]) => void, create: (id: string, ...args: unknown[]) => void })
-	function group(items): elementTypes.groupElement
+	function createType(type: { extends?: typeof elementTypes.element, element?: (id: string, ...args: unknown[]) => void, create: (id: string, ...args: unknown[]) => void }): elementTypes.element
+	function group(items: elementTypes.element[]): elementTypes.groupElement
 
 	const types: { [s: string]: typeof Nom.elementTypes.element };
 }

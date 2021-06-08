@@ -1,5 +1,5 @@
 type SpriteOrGroup = Sprite | Group;
-type p5KeyType = "left" | "right" | "up" | "down" | "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "x"
+type p5KeyType = "left" | "right" | "up" | "down" | "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z" | "ctrl" | "space" | "shift"
 type p5MouseType = "leftButton" | "rightButton"
 
 type p5ColorMode = "rgb"
@@ -52,6 +52,17 @@ declare class Sprite {
 	rotation: number
 	shapeColor: p5ColorChoice
 	tint: p5ColorChoice
+	depth: number
+	visible: boolean
+	velocityY: number
+	velocityX: number
+
+	isTouching(target: SpriteOrGroup): boolean;
+	bounce(target: SpriteOrGroup): void
+	bounceOff(target: SpriteOrGroup): void
+	collide(target: SpriteOrGroup): void
+	displace(target: SpriteOrGroup): void
+	overlap(target: SpriteOrGroup): boolean
 
 	setAnimation(label: string): void
 	setSpeedAndDirection(speed: number, direction: number): void
@@ -63,17 +74,17 @@ declare class Sprite {
 }
 
 declare class Group extends Array<Sprite> {
-	add(sprite: Sprite)
-	remove(sprite: Sprite)
-	clear()
+	add(sprite: Sprite): void
+	remove(sprite: Sprite): void
+	clear(): void
 	contains(sprite: Sprite): boolean
 	get(i: number): Sprite
 
 	isTouching(target: SpriteOrGroup): boolean
-	bounce(target: SpriteOrGroup)
-	bounceOff(target: SpriteOrGroup)
-	collide(target: SpriteOrGroup)
-	displace(target: SpriteOrGroup)
+	bounce(target: SpriteOrGroup): void
+	bounceOff(target: SpriteOrGroup): void
+	collide(target: SpriteOrGroup): void
+	displace(target: SpriteOrGroup): void
 	overlap(target: SpriteOrGroup): boolean
 
 	/** Returns the highest depth in a group. */
@@ -83,14 +94,15 @@ declare class Group extends Array<Sprite> {
 	minDepth(): number
 
 	/** Removes all the sprites in a group from the animation. */
-	destroyEach()
+	destroyEach(): void
 
 	/** Rotate every sprite ionthe group to face the (x,y) coordinate. */
-	pointToEach(x: number, y: number)
+	pointToEach(x: number, y: number): void
 
 	/** Sets the image or animation for every sprite in the group. */
-	setAnimationEach(label: string)
+	setAnimationEach(label: string): void
 
+	setRotationEach(rotation: number): void
 }
 
 declare class p5Color {
@@ -123,15 +135,31 @@ declare namespace World {
 	const mouseY: number
 }
 
-declare function rgb(a: number, g: number, b: number): p5Color
+declare namespace camera {
+	let x: number
+	let y: number
+	let zoom: number
+	let scale: number
+	const mouseX: number
+	const mouseY: number
+	function on(): void;
+	function off(): void;
+	function isActive(): boolean
+	let init: true
+
+}
+
+declare function rgb(r: number, g: number, b: number, a?: number): p5Color
 
 declare function noSmooth(): void
 declare function background(color: p5ColorChoice): void
 
-declare function drawSprites(group: Group /*= World.allSprites*/): void
+declare function drawSprites(group?: Group /*= World.allSprites*/): void
 declare function drawSprite(sprite: Sprite): void
+declare function createSprite(x?: number, y?: number, w?: number, h?: number): Sprite
 declare function createSprite<customProps extends object>(x?: number, y?: number, w?: number, h?: number): (Sprite & customProps)
 declare function createGroup(): Group
+declare function createEdgeSprites(): void
 
 //inputs
 declare function keyDown(key: p5KeyType): boolean
@@ -143,17 +171,19 @@ declare function mouseWentUp(key: p5MouseType): boolean
 declare function mouseDidMove(): boolean
 declare function mousePressedOver(sprite: Sprite): boolean
 declare function mouseIsOver(sprite: Sprite): boolean
+declare function keyWentUp(key: p5KeyType): boolean;
+declare function keyWentDown(key: p5KeyType): boolean;
 
 //colors
-declare function fill(p5ColorChoice): void;
+declare function fill(color: p5ColorChoice): void;
 declare function noFill(): void
-declare function stroke(p5ColorChoice): void
+declare function stroke(color: p5ColorChoice): void
 declare function noStroke(): void
 declare function strokeWeight(weight: number): void
 
 //basic drawing
-declare function ellipse(x: number, y: number, width?: number, height?: number)
-declare function rect(x: number, y: number, width?: number, height?: number)
+declare function ellipse(x: number, y: number, width?: number, height?: number): void
+declare function rect(x: number, y: number, width?: number, height?: number): void
 declare function curveVertex(x: number, y: number): void
 declare function beginShape(): void
 declare function endShape(): void
@@ -170,6 +200,8 @@ declare function dist(x: number, y: number, x2: number, y2: number): number
 //text
 declare function textAlign(x: p5AlignmentX, y?: p5AlignmentY): void
 declare function text(text: string, x: number, y: number, w?: number, h?: number): void
+declare function textFont(font: string): void
+declare function textSize(size: number): void;
 
 declare const CENTER = "center";
 declare const LEFT = "left";
