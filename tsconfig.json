@@ -4,8 +4,7 @@
     "target": "es6",
     "outDir": "out",
     "lib": [
-      "es6",
-      "DOM"
+      "es6"
     ],
     "sourceMap": true,
     "rootDir": "src",
@@ -25,6 +24,6 @@
   "exclude": [
     "node_modules",
     ".vscode-test",
-    "types/p5.d.ts"
+    "types"
   ]
 }
