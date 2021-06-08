@@ -23,7 +23,7 @@ export default async function updateProject() {
         return vscode.window.showErrorMessage("Must specify a channel.");
       }
       const versions = await getLibraryVersions(channelId);
-      const versionsArray = versions.map((v) => { return v.versionId; });
+      const versionsArray = versions.map((v) => { return `${v.versionId} (${v.lastModified})`; });
 
       let libraryVersion = (await vscode.window.showQuickPick(
         ["@latest", ...versionsArray],
@@ -36,8 +36,8 @@ export default async function updateProject() {
       let library: library;
       if (libraryVersion === "@latest") {
         library = await getLibrary(channelId);
-      } else if (libraryVersion && libraryVersion in versionsArray) {
-        library = await getLibrary(channelId, libraryVersion);
+      } else if (libraryVersion && libraryVersion.match(/(.+?) \(/)![1] in versionsArray) {
+        library = await getLibrary(channelId, libraryVersion.match(/(.+?) \(/)![1]);
       } else {
         return vscode.window.showErrorMessage("Not a valid version id.");
       }

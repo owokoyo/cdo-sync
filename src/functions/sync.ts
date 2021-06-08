@@ -47,14 +47,14 @@ async function updateSourceFile(compiledCode: string, config: config) {
   const source = JSON.parse(readFile(join("internal", "source.json"))!);
 
   source.source = compiledCode;
-  createFile(join("internal", "source.json"), JSON.stringify(source));
+  createFile(join("internal", "source.json"), JSON.stringify(source, null, 1));
 }
 
 async function transformLibraries(callback: (lib: library[]) => library[]) {
   const source = JSON.parse(readFile(join("internal", "source.json"))!);
 
   source.libraries = callback(source.libraries || []);
-  createFile(join("internal", "source.json"), JSON.stringify(source));
+  createFile(join("internal", "source.json"), JSON.stringify(source, null, 1));
 }
 
 type Anim = {
@@ -75,7 +75,7 @@ async function updateAnimations(animations: {
   const source = JSON.parse(readFile(join("internal", "source.json"))!);
 
   source.animations = animations;
-  createFile(join("internal", "source.json"), JSON.stringify(source));
+  createFile(join("internal", "source.json"), JSON.stringify(source, null, 1));
 }
 
 export {

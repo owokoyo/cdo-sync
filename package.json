@@ -17,7 +17,8 @@
     "onCommand:cdo-sync.update",
     "onCommand:cdo-sync.syncMetadata",
     "onCommand:cdo-sync.syncSource",
-    "onCommand:cdo-sync.syncAnimations"
+    "onCommand:cdo-sync.syncAnimations",
+    "onCommand:cdo-sync.addLibrary"
   ],
   "main": "./out/extension.js",
   "contributes": {
