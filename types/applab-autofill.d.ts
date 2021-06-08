@@ -1,3 +1,4 @@
+import "./applab"
 //Auto-generated with a bit of refining
 /*
 declare function getType(ex){

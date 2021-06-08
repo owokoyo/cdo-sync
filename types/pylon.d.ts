@@ -44,12 +44,12 @@ declare namespace Pylon {
 		/**
 		 * Resets the variable to [255,0,0] (red)
 		 */
-		Reset()
+		Reset(): void
 
 		/**
 		 * Moves the color of the variable forward. Usually goes in the draw loop.
 		 */
-		Forward()
+		Forward(): void
 	}
 
 	class DisplayType {
@@ -74,8 +74,9 @@ declare namespace Pylon {
 		whileNotOver: () => void
 		textSettings: TextSettings
 
-		Check()
+		Check(): void
 
+		//constructor(w: number, h: number)
 	}
 
 	/**
@@ -134,20 +135,20 @@ declare namespace Pylon {
 	/**
 	 * Required for button() to work. Put this in the draw loop after drawSprites().
 	 */
-	function checkButtons()
+	function checkButtons(): void
 
 	/**
 	 * Gets the number of unique users of your project
 	 * @param callback The function to run after users are counted
 	 */
-	function getUniqueUsers(callback: (users: number) => void)
+	function getUniqueUsers(callback: (users: number) => void): void
 
 	/**
 	 * Disables setKeyValue() and getKeyValue() when the project is in view mode
 	 * Protects you from your project from being hacked using the debug console
 	 * @param ad Additional code to run when view mode is being used
 	 */
-	function protect(ad: () => void)
+	function protect(ad: () => void): void
 }
 
 declare let __lastCamPos: [number, number] | undefined
