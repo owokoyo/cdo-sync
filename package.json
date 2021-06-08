@@ -57,6 +57,10 @@
       {
         "command": "cdo-sync.setId",
         "title": "cdo-sync: Set project id."
+      },
+      {
+        "command": "cdo-sync.addLibrary",
+        "title": "cdo-sync: Add Library To Project"
       }
     ]
   },

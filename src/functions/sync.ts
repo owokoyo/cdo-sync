@@ -4,7 +4,7 @@ import { createFile, readFile } from "./fs";
 import getConfig from "./getConfig";
 import * as request from "./request";
 import { compile } from "../compilers/compile";
-import { config } from "./types";
+import { config, library } from "./types";
 
 async function syncSource(csrf?: string) {
   const config = await getConfig();
@@ -50,6 +50,13 @@ async function updateSourceFile(compiledCode: string, config: config) {
   createFile(join("internal", "source.json"), JSON.stringify(source));
 }
 
+async function transformLibraries(callback: (lib: library[]) => library[]) {
+  const source = JSON.parse(readFile(join("internal", "source.json"))!);
+
+  source.libraries = callback(source.libraries || []);
+  createFile(join("internal", "source.json"), JSON.stringify(source));
+}
+
 type Anim = {
   name: string;
   sourceUrl: string;
@@ -77,5 +84,6 @@ export {
   updateAndSyncSource,
   updateSourceFile,
   updateAnimations,
+  transformLibraries,
   Anim,
 };

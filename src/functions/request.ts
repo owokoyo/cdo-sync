@@ -2,6 +2,7 @@ import FormData = require("form-data");
 import fetch from "node-fetch";
 import * as vscode from "vscode";
 import * as fs from "fs";
+import { library } from "./types";
 
 function getCSRF(projectId: string, cookie: string) {
   return fetch(`https://studio.code.org/projects/gamelab/${projectId}/edit`, {
@@ -136,6 +137,19 @@ function uploadFileAsAnimation(
   );
 }
 
+type LibraryReturnResult = { versionId: string, lastModified: string, isLatest: boolean }[];
+function getLibraryVersions(channelId: string): Promise<LibraryReturnResult> {
+  return fetch(
+    `https://studio.code.org/v3/libraries/${channelId}/library.json/versions`
+  ).then((r) => r.json());
+}
+
+function getLibrary(channelId: string, versionId?: string): Promise<library> {
+  return fetch(
+    `https://studio.code.org/v3/libraries/${channelId}/library.json${versionId ? `?versionId=${versionId}` : ``}`
+  ).then((r) => r.json()).then(JSON.parse);
+}
+
 export {
   getCSRF,
   getMetadata,
@@ -143,4 +157,7 @@ export {
   syncSource,
   syncMetadata,
   uploadFileAsAnimation,
+  getLibraryVersions,
+  getLibrary,
+  LibraryReturnResult
 };

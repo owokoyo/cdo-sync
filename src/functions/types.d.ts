@@ -7,4 +7,13 @@ type config = {
   channelId: string;
   rootPath: string;
 };
-export { compilerType, projectType, config };
+type library = {
+  name: string;
+  channelId: string
+  description: string
+  versionId: string
+  source: string
+  functions: string[]
+  dropletConfig: { category: string, comment: string, func: string, type: "either" }[]
+}
+export { compilerType, projectType, config, library };
