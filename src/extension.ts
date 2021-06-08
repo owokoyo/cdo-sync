@@ -4,6 +4,7 @@ import * as vscode from "vscode";
 import addLibrary from "./commands/addLibrary";
 
 import initProject from "./commands/init";
+import removeLibrary from "./commands/removeLibrary";
 import { setAuth, setId } from "./commands/setConfigItem";
 import startInWatch from "./commands/start";
 import closeWatcher from "./commands/stop";
@@ -55,6 +56,9 @@ export function activate(context: vscode.ExtensionContext) {
   );
   context.subscriptions.push(
     vscode.commands.registerCommand("cdo-sync.addLibrary", addLibrary)
+  );
+  context.subscriptions.push(
+    vscode.commands.registerCommand("cdo-sync.removeLibrary", removeLibrary)
   );
 }
 

@@ -4,7 +4,7 @@ import { getLibrary, getLibraryVersions } from "../functions/request";
 import { transformLibraries } from "../functions/sync";
 import { library } from "../functions/types";
 
-export default async function updateProject() {
+export default async function addLibrary() {
   const config = await getConfig();
   if (config) {
     let libraryType = (await vscode.window.showQuickPick(

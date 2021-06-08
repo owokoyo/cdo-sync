@@ -5,7 +5,7 @@ import { getLibrary, getLibraryVersions } from "../functions/request";
 import { transformLibraries } from "../functions/sync";
 import { library } from "../functions/types";
 
-export default async function updateProject() {
+export default async function removeLibrary() {
   const config = await getConfig();
   if (config) {
     const source = JSON.parse(readFile("internal/source.json")!);
