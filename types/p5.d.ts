@@ -9,7 +9,43 @@ type p5AlignmentY = "baseline" | "top" | "bottom"
 type p5Font = "Arial" | "Courier New" | string //ee
 type p5ColorChoice = p5Color | string | number
 
-class Sprite {
+type pInst = {
+	readonly _setupDone: boolean
+	readonly _pixelDensity: number
+	//readonly _userNode: HTMLDivElement
+	//readonly _curElement: e
+	//readonly _elements: e[]
+	readonly _requestAnimId: number
+	readonly _preloadCount: number
+	readonly _isGlobal: boolean;
+	readonly _loop: boolean;
+	readonly _styles: [];
+	readonly _defaultCanvasSize: {
+		readonly width: number,
+		readonly height: number
+	}
+	readonly _events: {
+		mousemove: () => void,
+		mousedown: () => void,
+		mouseup: () => void,
+		dragend: () => void
+		//...
+	}
+	readonly _loadingScreenId: "p5_loading"
+	//...
+	//canvas: HTMLCanvasElement
+	readonly width: number
+	readonly height: number
+	readonly drawContext: CanvasRenderingContext2D
+	//_renderer:
+	readonly _isdefaultGraphics: boolean
+	/**
+	 * @deprecated
+	 */
+	loadJSON: () => void;
+}
+
+declare class Sprite {
 	x: number
 	y: number
 	scale: number
@@ -26,7 +62,7 @@ class Sprite {
 	overlap(target: SpriteOrGroup): boolean
 }
 
-class Group extends Array<Sprite> {
+declare class Group extends Array<Sprite> {
 	add(sprite: Sprite)
 	remove(sprite: Sprite)
 	clear()
@@ -57,7 +93,7 @@ class Group extends Array<Sprite> {
 
 }
 
-class p5Color {
+declare class p5Color {
 	toString(): string
 	_getRed(): number
 	_getGreen(): number
@@ -77,9 +113,9 @@ class p5Color {
 	_array: [number, number, number, number]
 }
 
-namespace World {
+declare namespace World {
 	let pInst: pInst
-	
+
 	let allSprites: Group
 	let frameRate: number
 	const frameCount: number
@@ -87,57 +123,57 @@ namespace World {
 	const mouseY: number
 }
 
-function rgb(a: number, g: number, b: number): p5Color
+declare function rgb(a: number, g: number, b: number): p5Color
 
-function noSmooth(): void
-function background(color: p5ColorChoice): void
+declare function noSmooth(): void
+declare function background(color: p5ColorChoice): void
 
-function drawSprites(group: Group = World.allSprites): void
-function drawSprite(sprite: Sprite): void
-function createSprite<customProps extends object>(x?: number, y?: number, w?: number, h?:number): (Sprite & customProps)
-function createGroup(): Group
+declare function drawSprites(group: Group /*= World.allSprites*/): void
+declare function drawSprite(sprite: Sprite): void
+declare function createSprite<customProps extends object>(x?: number, y?: number, w?: number, h?: number): (Sprite & customProps)
+declare function createGroup(): Group
 
 //inputs
-function keyDown(key: p5KeyType): boolean
-function keyUp(key: p5KeyType): boolean
-function mouseDown(key: p5MouseType): boolean
-function mouseUp(key: p5MouseType): boolean
-function mouseWentDown(key: p5MouseType): boolean
-function mouseWentUp(key: p5MouseType): boolean
-function mouseDidMove(): boolean
-function mousePressedOver(sprite: Sprite): boolean
-function mouseIsOver(sprite: Sprite): boolean
+declare function keyDown(key: p5KeyType): boolean
+declare function keyUp(key: p5KeyType): boolean
+declare function mouseDown(key: p5MouseType): boolean
+declare function mouseUp(key: p5MouseType): boolean
+declare function mouseWentDown(key: p5MouseType): boolean
+declare function mouseWentUp(key: p5MouseType): boolean
+declare function mouseDidMove(): boolean
+declare function mousePressedOver(sprite: Sprite): boolean
+declare function mouseIsOver(sprite: Sprite): boolean
 
 //colors
-function fill(p5ColorChoice): void;
-function noFill(): void
-function stroke(p5ColorChoice): void
-function noStroke(): void
-function strokeWeight(weight: number): void
+declare function fill(p5ColorChoice): void;
+declare function noFill(): void
+declare function stroke(p5ColorChoice): void
+declare function noStroke(): void
+declare function strokeWeight(weight: number): void
 
 //basic drawing
-function ellipse(x: number, y: number, width?: number, height?: number)
-function rect(x: number, y: number, width?: number, height?: number)
-function curveVertex(x: number, y: number): void
-function beginShape(): void
-function endShape(): void
+declare function ellipse(x: number, y: number, width?: number, height?: number)
+declare function rect(x: number, y: number, width?: number, height?: number)
+declare function curveVertex(x: number, y: number): void
+declare function beginShape(): void
+declare function endShape(): void
 
 //math
-function atan2(y: number, x: number): number
-function atan(m: number): number
-function cos(m: number): number
-function sin(m: number): number
-function random(): number
-function randomNumber(min: number, max: number): number
-function dist(x: number, y: number, x2: number, y2: number): number
+declare function atan2(y: number, x: number): number
+declare function atan(m: number): number
+declare function cos(m: number): number
+declare function sin(m: number): number
+declare function random(): number
+declare function randomNumber(min: number, max: number): number
+declare function dist(x: number, y: number, x2: number, y2: number): number
 
 //text
-function textAlign(x: p5AlignmentX, y?: p5AlignmentY): void
-function text(text: string, x: number, y: number, w?: number, h?: number): void
+declare function textAlign(x: p5AlignmentX, y?: p5AlignmentY): void
+declare function text(text: string, x: number, y: number, w?: number, h?: number): void
 
-const CENTER = "center";
-const LEFT = "left";
-const RIGHT = "right";
-const BASELINE = "baseline";
-const TOP = "top";
-const BOTTOM = "bottom";
+declare const CENTER = "center";
+declare const LEFT = "left";
+declare const RIGHT = "right";
+declare const BASELINE = "baseline";
+declare const TOP = "top";
+declare const BOTTOM = "bottom";

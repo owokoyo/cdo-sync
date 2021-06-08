@@ -1,6 +1,6 @@
 //Auto-generated with a bit of refining
 /*
-function getType(ex){
+declare function getType(ex){
     let r;
     try {
         eval("r ="+ex)
@@ -10,7 +10,7 @@ function getType(ex){
     }
     return r
 }
-function getValue(ex){
+declare function getValue(ex){
     let r;
     console.log(ex)
     try {
@@ -20,7 +20,7 @@ function getValue(ex){
     }
     return r
 }
-function fix(v){
+declare function fix(v){
     if (typeof v === "object"){
         return "string"
     }
@@ -63,226 +63,226 @@ document.write(appOptions.dropletConfig.blocks.filter(e=>!e.block&&!e.blockPrefi
 }).join("<br><br>"))
 */
 
-function onEvent(id: ElementId, type: "click" | "change" | "keyup" | "keydown" | "keypress" | "mousemove" | "mousedown" | "mouseup" | "mouseover" | "mouseout" | "input", callback: function): void
+declare function onEvent(id: ElementId, type: "click" | "change" | "keyup" | "keydown" | "keypress" | "mousemove" | "mousedown" | "mouseup" | "mouseover" | "mouseout" | "input", callback: (event: UIEvent) => void): void
 
-function button(id: ElementId, text: string): void
+declare function button(id: ElementId, text: string): void
 
-function textInput(id: ElementId, text: string): void
+declare function textInput(id: ElementId, text: string): void
 
-function textLabel(id: ElementId, text: string): void
+declare function textLabel(id: ElementId, text: string): void
 
-function dropdown(id: ElementId, option1: string, etc: string): void
+declare function dropdown(id: ElementId, option1: string, etc: string): void
 
-function getText(id: ElementId): string
+declare function getText(id: ElementId): string
 
-function setText(id: ElementId, text: string): void
+declare function setText(id: ElementId, text: string): void
 
-function getNumber(id: ElementId): number
+declare function getNumber(id: ElementId): number
 
-function setNumber(id: ElementId, number: number): void
+declare function setNumber(id: ElementId, number: number): void
 
-function checkbox(id: ElementId, checked: true | false): void
+declare function checkbox(id: ElementId, checked: true | false): void
 
-function radioButton(id: ElementId, checked: true | false): void
+declare function radioButton(id: ElementId, checked: true | false): void
 
-function getChecked(id: ElementId): boolean
+declare function getChecked(id: ElementId): boolean
 
-function setChecked(id: ElementId, checked: true | false): void
+declare function setChecked(id: ElementId, checked: true | false): void
 
-function image(id: ElementId, url: string): void
+declare function image(id: ElementId, url: string): void
 
-function getImageURL(id: ElementId): string
+declare function getImageURL(id: ElementId): string
 
-function setImageURL(id: ElementId, url: string): void
+declare function setImageURL(id: ElementId, url: string): void
 
-//function playSound(url: string, loop: true | false): void
+//declare function playSound(url: string, loop: true | false): void
 
-function stopSound(url: string): void
+declare function stopSound(url: string): void
 
-function playSpeech(text: string, gender: "female" | "male", language: "العربية" | "български" | "Català" | "Čeština" | "Dansk" | "Deutsch" | "Ελληνικά" | "English (UK)" | "English" | "Español (España)" | "Español (LATAM)" | "Eesti" | "Suomi" | "Français" | "Gaeilge" | "हिन्दी" | "Hrvatski" | "Magyar" | "Bahasa Indonesia" | "Italiano" | "日本語" | "한국어" | "Lietuvių" | "Latviešu" | "بهاس ملايو" | "Malti" | "Nederlands" | "Polski" | "Português (Brasil)" | "Português (Portugal)" | "Română" | "Pусский" | "Slovenčina" | "Slovenščina" | "Svenska" | "தமிழ்" | "తెలుగు" | "ภาษาไทย" | "Türkçe" | "Українська" | "اردو" | "Tiếng Việt" | "简体字" | "繁體字"): void
+declare function playSpeech(text: string, gender: "female" | "male", language: "العربية" | "български" | "Català" | "Čeština" | "Dansk" | "Deutsch" | "Ελληνικά" | "English (UK)" | "English" | "Español (España)" | "Español (LATAM)" | "Eesti" | "Suomi" | "Français" | "Gaeilge" | "हिन्दी" | "Hrvatski" | "Magyar" | "Bahasa Indonesia" | "Italiano" | "日本語" | "한국어" | "Lietuvių" | "Latviešu" | "بهاس ملايو" | "Malti" | "Nederlands" | "Polski" | "Português (Brasil)" | "Português (Portugal)" | "Română" | "Pусский" | "Slovenčina" | "Slovenščina" | "Svenska" | "தமிழ்" | "తెలుగు" | "ภาษาไทย" | "Türkçe" | "Українська" | "اردو" | "Tiếng Việt" | "简体字" | "繁體字"): void
 
-function showElement(id: ElementId): void
+declare function showElement(id: ElementId): void
 
-function hideElement(id: ElementId): void
+declare function hideElement(id: ElementId): void
 
-function deleteElement(id: ElementId): void
+declare function deleteElement(id: ElementId): void
 
-function setPosition(id: ElementId, x: number, y: number, width: number, height: number): void
+declare function setPosition(id: ElementId, x: number, y: number, width: number, height: number): void
 
-function setSize(id: ElementId, width: number, height: number): void
+declare function setSize(id: ElementId, width: number, height: number): void
 
-function setProperty(id: ElementId, property: string, value: any): void
+declare function setProperty(id: ElementId, property: string, value: any): void
 
-function getProperty(id: ElementId, property: string): any
+declare function getProperty(id: ElementId, property: string): any
 
-function write(text: string): void
+declare function write(text: string): void
 
-function getXPosition(id: ElementId): number
+declare function getXPosition(id: ElementId): number
 
-function getYPosition(id: ElementId): number
+declare function getYPosition(id: ElementId): number
 
-function setScreen(screenId: ScreenId): void
+declare function setScreen(screenId: ScreenId): void
 
-function rgb(r: number, g: number, b: number, a: number): string
+declare function rgb(r: number, g: number, b: number, a: number): string
 
-function open(url: string): void
+declare function open(url: string): void
 
-function createCanvas(id: ElementId, width: number, height: number): void
+declare function createCanvas(id: ElementId, width: number, height: number): void
 
-function setActiveCanvas(id: ElementId): void
+declare function setActiveCanvas(id: ElementId): void
 
-function line(x1: number, y1: number, x2: number, y2: number): void
+declare function line(x1: number, y1: number, x2: number, y2: number): void
 
-function circle(x: number, y: number, radius: number): void
+declare function circle(x: number, y: number, radius: number): void
 
-function rect(x: number, y: number, width: number, height: number): void
+declare function rect(x: number, y: number, width: number, height: number): void
 
-function setStrokeWidth(width: number): void
+declare function setStrokeWidth(width: number): void
 
-function setStrokeColor(color: string): void
+declare function setStrokeColor(color: string): void
 
-function setFillColor(color: string): void
+declare function setFillColor(color: string): void
 
-function drawImage(id: ElementId, x: number, y: number): void
+declare function drawImage(id: ElementId, x: number, y: number): void
 
-function drawImageURL(url: string): void
+declare function drawImageURL(url: string): void
 
-function getImageData(x: number, y: number, width: number, height: number): ImgData
+declare function getImageData(x: number, y: number, width: number, height: number): ImgData
 
-function putImageData(imgData: ImgData, x: number, y: number): void
+declare function putImageData(imgData: ImgData, x: number, y: number): void
 
-function clearCanvas(): void
+declare function clearCanvas(): void
 
-function getRed(imgData: ImgData, x: number, y: number): number
+declare function getRed(imgData: ImgData, x: number, y: number): number
 
-function getGreen(imgData: ImgData, x: number, y: number): number
+declare function getGreen(imgData: ImgData, x: number, y: number): number
 
-function getBlue(imgData: ImgData, x: number, y: number): number
+declare function getBlue(imgData: ImgData, x: number, y: number): number
 
-function getAlpha(imgData: ImgData, x: number, y: number): number
+declare function getAlpha(imgData: ImgData, x: number, y: number): number
 
-function setRed(imgData: ImgData, x: number, y: number, r: number): void
+declare function setRed(imgData: ImgData, x: number, y: number, r: number): void
 
-function setGreen(imgData: ImgData, x: number, y: number, g: number): void
+declare function setGreen(imgData: ImgData, x: number, y: number, g: number): void
 
-function setBlue(imgData: ImgData, x: number, y: number, b: number): void
+declare function setBlue(imgData: ImgData, x: number, y: number, b: number): void
 
-function setAlpha(imgData: ImgData, x: number, y: number, a: number): void
+declare function setAlpha(imgData: ImgData, x: number, y: number, a: number): void
 
-function setRGB(imgData: ImgData, x: number, y: number, r: number, g: number, b: number): void
+declare function setRGB(imgData: ImgData, x: number, y: number, r: number, g: number, b: number): void
 
-function getColumn(table: string, column: string): void
+declare function getColumn(table: string, column: string): void
 
 /*
-function startWebRequest(url: string, callback: function): void
+declare function startWebRequest(url: string, callback: function): void
 
-function startWebRequestSync(url: string): void
+declare function startWebRequestSync(url: string): void
 
-function setKeyValue(key: string, value: string, callback: function): void
+declare function setKeyValue(key: string, value: string, callback: function): void
 
-function setKeyValueSync(key: string, value: string): void
+declare function setKeyValueSync(key: string, value: string): void
 
-function getKeyValue(key: string, callback: function): void
+declare function getKeyValue(key: string, callback: function): void
 
-function getKeyValueSync(key: string): void
+declare function getKeyValueSync(key: string): void
 
-function createRecord(table: string, record: object, callback: function): void
+declare function createRecord(table: string, record: object, callback: function): void
 
-function createRecordSync(table: string, record: object): void
+declare function createRecordSync(table: string, record: object): void
 
-function readRecords(table: string, terms: object, callback: function): void
+declare function readRecords(table: string, terms: object, callback: function): void
 
-function readRecordsSync(table: string): void
+declare function readRecordsSync(table: string): void
 
-function updateRecord(table: string, record: object, callback: function): void
+declare function updateRecord(table: string, record: object, callback: function): void
 
-function updateRecordSync(table: string, record: object): void
+declare function updateRecordSync(table: string, record: object): void
 
-function deleteRecord(table: string, record: object, callback: function): void
+declare function deleteRecord(table: string, record: object, callback: function): void
 
-function deleteRecordSync(table: string, record: object): void
+declare function deleteRecordSync(table: string, record: object): void
 
-function onRecordEvent(table: string, callback: function): void
+declare function onRecordEvent(table: string, callback: function): void
 */
 
-function getUserId(): string
+declare function getUserId(): string
 
-function drawChart(chartId: ElementId, chartType: "bar" | "line" | "pie" | "scatter", chartData: recordTerm[], options?: ChartOptions, callback?: ()=>void): void
+declare function drawChart(chartId: ElementId, chartType: "bar" | "line" | "pie" | "scatter", chartData: recordTerm[], options?: ChartOptions, callback?: () => void): void
 
-function drawChartFromRecords(chartId: ElementId, chartType: "bar" | "line" | "pie" | "scatter", tableName: string, columns: string[], options?: ChartOptions, callback?: ()=>void): void
+declare function drawChartFromRecords(chartId: ElementId, chartType: "bar" | "line" | "pie" | "scatter", tableName: string, columns: string[], options?: ChartOptions, callback?: () => void): void
 
-function moveForward(pixels: number): void
+declare function moveForward(pixels: number): void
 
-function moveBackward(pixels: number): void
+declare function moveBackward(pixels: number): void
 
-function move(x: number, y: number): void
+declare function move(x: number, y: number): void
 
-function moveTo(x: number, y: number): void
+declare function moveTo(x: number, y: number): void
 
-function dot(radius: number): void
+declare function dot(radius: number): void
 
-function turnRight(angle: number): void
+declare function turnRight(angle: number): void
 
-function turnLeft(angle: number): void
+declare function turnLeft(angle: number): void
 
-function turnTo(angle: number): void
+declare function turnTo(angle: number): void
 
-function arcRight(angle: number, radius: number): void
+declare function arcRight(angle: number, radius: number): void
 
-function arcLeft(angle: number, radius: number): void
+declare function arcLeft(angle: number, radius: number): void
 
-function getX(): number
+declare function getX(): number
 
-function getY(): number
+declare function getY(): number
 
-function getDirection(): number
+declare function getDirection(): number
 
-function penUp(): void
+declare function penUp(): void
 
-function penDown(): void
+declare function penDown(): void
 
-function penWidth(width: number): void
+declare function penWidth(width: number): void
 
-function penColor(color: string): void
+declare function penColor(color: string): void
 
-function penRGB(r: number, g: number, b: number): void
+declare function penRGB(r: number, g: number, b: number): void
 
-function show(): void
+declare function show(): void
 
-function hide(): void
+declare function hide(): void
 
-function speed(value: number): void
+declare function speed(value: number): void
 
-function setTimeout(callback: ()=>void, ms: number): number
+declare function setTimeout(callback: () => void, ms: number): number
 
-function clearTimeout(id: number): void
+declare function clearTimeout(id: number): void
 
-function setInterval(callback: ()=>void, ms: number): number
+declare function setInterval(callback: () => void, ms: number): number
 
-function clearInterval(id: number): void
+declare function clearInterval(id: number): void
 
-function timedLoop(ms: number, callback: ()=>void): number
+declare function timedLoop(ms: number, callback: () => void): number
 
-function stopTimedLoop(id?: number): void
+declare function stopTimedLoop(id?: number): void
 
-function insertItem(list: [], index: number, item: any): void
+declare function insertItem(list: [], index: number, item: any): void
 
-function appendItem(list: [], item: any): void
+declare function appendItem(list: [], item: any): void
 
-function removeItem(list: [], index: number): void
+declare function removeItem(list: [], index: number): void
 
-function imageUploadButton(id: ElementId, text: string): void
+declare function imageUploadButton(id: ElementId, text: string): void
 
-function container(id: ElementId, text: string): void
+declare function container(id: ElementId, text: string): void
 
-function innerHTML(id: ElementId, html: string): void
+declare function innerHTML(id: ElementId, html: string): void
 
-function setParent(id: ElementId, parent: ElementId): void
+declare function setParent(id: ElementId, parent: ElementId): void
 
-function setStyle(id: ElementId, style: string): void
+declare function setStyle(id: ElementId, style: string): void
 
-function getAttribute(id: ElementId, attribute: string): any
+declare function getAttribute(id: ElementId, attribute: string): any
 
-function setAttribute(id: ElementId, attribute: "scrollTop", value: any): void
+declare function setAttribute(id: ElementId, attribute: "scrollTop", value: any): void
 
-function setSelectionRange(id: ElementId, start: number, end: number): void
+declare function setSelectionRange(id: ElementId, start: number, end: number): void

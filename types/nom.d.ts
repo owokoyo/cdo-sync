@@ -1,6 +1,6 @@
-namespace Nom {
+declare namespace Nom {
 
-	type baseType = 
+	type baseType =
 		"screen" |
 		"dropdown" |
 		"slider" |
@@ -13,26 +13,26 @@ namespace Nom {
 		"button" |
 		"label" |
 		"unknown" | string
-	
+
 
 
 	type type = string | Nom.elementTypes.element;
-	type getProps<type> = type["props"];
-	
-	type mapNameToElement<name extends baseType> = 
+	type getProps<t extends { props: string[] }> = t["props"];
+
+	type mapNameToElement<name extends baseType> =
 		name extends "button" ? elementTypes.button :
-//		name extends "group" ? elementTypes.groupElement :
+		//		name extends "group" ? elementTypes.groupElement :
 		elementTypes.element;
 
-	
+
 
 	namespace elementTypes {
 		abstract class element {
 			id: string
 			setProp(prop: string, val: unknown): this
-			setProps(props: {[s: string]: string}): this
-			applyBehavior(callback: (object: this)=>void): this
-	
+			setProps(props: { [s: string]: string }): this
+			applyBehavior(callback: (object: this) => void): this
+
 		}
 
 		abstract class groupElement extends element {
@@ -65,7 +65,7 @@ namespace Nom {
 		}
 
 		abstract class screenElement extends physicalElement {
-			
+
 		}
 
 		abstract class contentElement extends physicalElement {
@@ -91,7 +91,7 @@ namespace Nom {
 		}
 
 		abstract class button extends textElement {
-			
+
 		}
 	}
 
@@ -101,12 +101,12 @@ namespace Nom {
 	function getType(id: string): baseType
 	function create<typeName extends baseType>(type: typeName): mapNameToElement<typeName>
 	function get<typeName extends baseType>(id: string, type: typeName): mapNameToElement<typeName>
-	function createType(type: {extends?: typeof elementTypes.element, element?: function, create: (id: string, ...args: unknown)=>void})
-	function group(items): elementTypes.group
+	function createType(type: { extends?: typeof elementTypes.element, element?: (id: string, ...args: unknown[]) => void, create: (id: string, ...args: unknown[]) => void })
+	function group(items): elementTypes.groupElement
 
-	const types: {[s: string]: typeof Nom.elementTypes.element};
+	const types: { [s: string]: typeof Nom.elementTypes.element };
 }
 
-function Nom<typeName extends Nom.baseType>(type: typeName): Nom.mapNameToElement<typeName>
+declare function Nom<typeName extends Nom.baseType>(type: typeName): Nom.mapNameToElement<typeName>
 
 import $ = Nom;
