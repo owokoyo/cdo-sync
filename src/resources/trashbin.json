@@ -1,0 +1,12 @@
+{
+	"WebGL Canvas": {
+		"name": "_",
+		"description": "WEBGL FRAMEWORK",
+		"functions": [],
+		"dropletConfig": [],
+		"source": "}); createCanvas(400, 400, WEBGL) (function(){",
+		"originalName": "",
+		"versionId": "",
+		"channelId": ""
+	}
+}
