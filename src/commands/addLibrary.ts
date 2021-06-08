@@ -28,7 +28,7 @@ export default async function addLibrary() {
       let libraryVersion = (await vscode.window.showQuickPick(
         ["@latest", ...versionsArray],
         {
-          placeHolder: "Library Version",
+          placeHolder: `Library Version`,
           ignoreFocusOut: true,
         }
       ));
@@ -47,6 +47,7 @@ export default async function addLibrary() {
         if (libLength !== libs.length) {
           vscode.window.showWarningMessage(`Library ${library.name} (${channelId}) already exists. Replacing.`);
         }
+        vscode.window.showInformationMessage(`Added ${library.name}!`);
         libs.push(library);
         return libs;
       });
