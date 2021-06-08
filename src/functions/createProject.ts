@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { createFile, createDirectory } from "./fs";
-import tsconfig from "../resources/tsconfig.json";
+import tsconfig from "../resources/_tsconfig.json";
 import { compilerType, projectType } from "./types";
 import * as fsExtra from "fs-extra";
 import path = require("path");
