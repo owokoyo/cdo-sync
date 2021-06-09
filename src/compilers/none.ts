@@ -3,7 +3,7 @@ import { readFile } from "../functions/fs";
 import * as vscode from "vscode";
 
 function transform(s: string) {
-  return s;
+  return readFile(s);
 }
 
 function watch(rootPath: string, update: (newCode: string) => void) {
