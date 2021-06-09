@@ -3,6 +3,10 @@
   "displayName": "cdo-sync",
   "description": "Write code.org projects in typescript or es6 and sync to code.org",
   "version": "0.0.1",
+  "publisher": "Owokoyo",
+  "repository": {
+    "url": "https://ww.github.com/owokoyo/cdo-sync"
+  },
   "engines": {
     "vscode": "^1.56.0"
   },
@@ -10,16 +14,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:cdo-sync.init",
-    "onCommand:cdo-sync.setAuth",
-    "onCommand:cdo-sync.setId",
-    "onCommand:cdo-sync.start",
-    "onCommand:cdo-sync.update",
-    "onCommand:cdo-sync.syncMetadata",
-    "onCommand:cdo-sync.syncSource",
-    "onCommand:cdo-sync.syncAnimations",
-    "onCommand:cdo-sync.addLibrary",
-    "onCommand:cdo-sync.removeLibrary"
+    "*"
   ],
   "main": "./out/extension.js",
   "contributes": {
