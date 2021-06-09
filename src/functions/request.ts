@@ -3,6 +3,7 @@ import fetch from "node-fetch";
 import * as vscode from "vscode";
 import * as fs from "fs";
 import { library } from "./types";
+import state from "./state";
 
 function getCSRF(projectId: string, cookie: string) {
   return fetch(`https://studio.code.org/projects/gamelab/${projectId}/edit`, {
@@ -71,6 +72,7 @@ function syncSource(
     method: "PUT",
   });
   vscode.window.showInformationMessage("Updating Source");
+  state.sourceUpdatedCallback();
 }
 
 function syncMetadata(

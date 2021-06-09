@@ -7,4 +7,5 @@ export default {
       window.showWarningMessage("File watchers are already closed.");
     }
   },
+  sourceUpdatedCallback: () => { }
 };

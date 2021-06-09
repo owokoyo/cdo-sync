@@ -97,6 +97,44 @@ export default async function startInWatch() {
       );
     }
 
+    const preview = vscode.window.createWebviewPanel("prview", "Code.org Preview", vscode.ViewColumn.Two, {
+      enableScripts: true
+    });
+    preview.webview.html =
+      `
+          <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Code.org Preview</title>
+        <script>
+        function reload(){
+          document.getElementById("reloadContainer").innerHTML = ''
+          document.getElementById("reloadContainer").innerHTML = '<iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" width="432" height="757" style="border: 0px;" src="https://studio.code.org/projects/${config.projectType}/${config.channelId}/embed"></iframe>'
+          //document.getElementById("reloadBtn").style = "display: none"
+        }
+        window.addEventListener("message", (event)=>{
+          if (event.data === "reload"){
+            document.getElementById("reloadBtn").style = ""
+          }
+        })
+      </script>
+    </head>
+    <body>
+    <div id = "reloadContainer" style = "height: ${config.projectType === "gamelab" ? 400 : 700}px; overflow: hidden"></div>
+    <button id="reloadBtn" style = "display: none"; onClick = "reload()">Reload</button> <div style="color: #FFF">Click the screen to run the project.</div>
+    <script>
+    reload();
+    </script>
+    </body>
+    </html>
+    `;
+
+    state.sourceUpdatedCallback = function () {
+      preview.webview.postMessage("reload");
+    };
+
     let isClosed = false;
     function close(hideWarning?: true) {
       if (isClosed) {

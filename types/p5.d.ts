@@ -203,6 +203,10 @@ declare function text(text: string, x: number, y: number, w?: number, h?: number
 declare function textFont(font: string): void
 declare function textSize(size: number): void;
 
+//translations or whatever
+declare function translate(x: number, y: number): void;
+declare function rotate(r: number): void;
+
 declare const CENTER = "center";
 declare const LEFT = "left";
 declare const RIGHT = "right";
