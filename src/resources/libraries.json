@@ -1,35 +1,35 @@
 {
-	"Baron": {
+	"[Owokoyo] Baron": {
 		"getChannelId": "eta6ZCWkDLuWoc0nIekjAgyZ83MreMaANLZu35rKiEI"
 	},
-	"Nom": {
+	"[Owokoyo] Nom": {
 		"getChannelId": "t9KSTLQoUPPQYNSy036VGtViJ1k-UhDz_RLGQthHn9U"
 	},
-	"Pylon": {
+	"[Ziriksi] Pylon": {
 		"getChannelId": "Ax9qgV0qivNghmgVFjsdNPIS_3rPHFeiHbgOZ1dSbtQ"
 	},
-	"Interactive Buttons": {
+	"[Letti] Interactive Buttons": {
 		"getChannelId": "xRsw3cBip9L7P0LNSjFWi1vJjZuyCavcdPSHlIIxs28"
 	},
-	"React": {
-		"getChannelId": "rAY3gBePcokHptTRJcbG4cLIyJN_7XpsI41aAE5Ln94"
-	},
-	"Wait": {
+	"[Ziriksi] Wait": {
 		"getChannelId": "9rhUApJXCUNHCuZGG-txvsDBeZgybhFmjJyENTEIDTw"
 	},
-	"Neo": {
+	"[NeoEmberArts] Neo": {
 		"getChannelId": "6Smh9_3VqcQJZocCzJB4Ytxoj0zcoBQc9V7HHilRmoI"
 	},
-	"Soundstream": {
+	"[Owokoyo] Soundstream": {
 		"getChannelId": "qnbEzeJMNSO02IngGJBBsK25WDV3GSRIy7gZHjFrSEI"
 	},
-	"UI5 (Deprecated)": {
+	"[Owokoyo] React": {
+		"getChannelId": "rAY3gBePcokHptTRJcbG4cLIyJN_7XpsI41aAE5Ln94"
+	},
+	"[Owokoyo] UI5 (Deprecated)": {
 		"getChannelId": "P8rRZEB5ls2aCC2DDQVcCM8S35StqkoLIRRVxKbRLSA",
 		"dependencies": [
 			"rAY3gBePcokHptTRJcbG4cLIyJN_7XpsI41aAE5Ln94"
 		]
 	},
-	"Ocelot (USE BARON)": {
+	"[Owokoyo] Ocelot (USE BARON)": {
 		"getChannelId": "IwwtHsXq-n6nVMLrmQ1SuK4acsJXWxMUibMz721hvCc",
 		"dependencies": [
 			"rAY3gBePcokHptTRJcbG4cLIyJN_7XpsI41aAE5Ln94"
