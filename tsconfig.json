@@ -3,6 +3,7 @@
     "module": "commonjs",
     "target": "es6",
     "outDir": "out",
+    "skipLibCheck": true,
     "lib": [
       "es6"
     ],
@@ -24,6 +25,6 @@
   "exclude": [
     "node_modules",
     ".vscode-test",
-    "types"
+    "resources"
   ]
 }

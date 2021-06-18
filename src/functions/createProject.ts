@@ -105,9 +105,8 @@ function createProject(
     createFile("tsconfig.json", JSON.stringify(tsconfig, null, 1));
 
     const wsPath = vscode.workspace.workspaceFolders![0].uri.fsPath; // gets the path of the first workspace folder
-
     fsExtra.copy(
-      path.dirname(path.dirname(__dirname)) + "/types",
+      path.dirname(path.dirname((__dirname))) + "/resources/types",
       wsPath + "/workspace/types"
     );
   } else {

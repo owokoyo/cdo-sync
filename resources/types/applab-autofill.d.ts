@@ -1,7 +1,7 @@
 //import "./applab"
 //Auto-generated with a bit of refining
 /*
-declare function getType(ex){
+function getType(ex){
     let r;
     try {
         eval("r ="+ex)

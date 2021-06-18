@@ -28,10 +28,10 @@ declare function onRecordEvent<updated extends recordTerm>(table: string, callba
 declare function startWebRequest(url: string, callback: (status: HttpStatusCode, type: mime, content: string) => void): void
 declare function startWebRequestSync(url: string): string
 
-declare function setKeyValue(key: string, value: recordTerm, callback?: (result: storageValue) => void);
+declare function setKeyValue(key: string, value: recordTerm, callback?: (result: storageValue) => void): void;
 declare function setKeyValueSync(key: string, value: recordTerm): storageValue;
 
-declare function getKeyValue(key: string, callback?: (result: storageValue) => void);
+declare function getKeyValue(key: string, callback?: (result: storageValue) => void): void;
 declare function getKeyValueSync(key: string): storageValue;
 
 declare function playSound(url: string, loop: true | false, loaded?: () => void): void
