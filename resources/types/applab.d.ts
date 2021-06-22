@@ -3,7 +3,6 @@ type storageValue = boolean | number | string | undefined | null
 type recordTerm = { [s: string]: storageValue };
 type recordObject = { id: number } & recordTerm;
 type mime = string;
-type ElementId = string;
 type ScreenId = string;
 type ImgData = { data: number[], width: number, height: number }
 type ChartOptions = { bars?: "vertical" | "horizontal", title?: string, colors?: string[], legend?: { position?: "static" | "relative" | "fixed" | "absolute" | "sticky" } }
@@ -38,11 +37,11 @@ declare function playSound(url: string, loop: true | false, loaded?: () => void)
 
 declare function getUserId(): string
 
-type BaseEventProps<id extends ElementId> = { currentTargetId: id, targetId: ElementId, srcElementId: ElementId, which: number }
+type BaseEventProps<id extends string> = { currentTargetId: id, targetId: string, srcElementId: string, which: number }
 type KeyEventProps = { ctrlKey: boolean, altKey: boolean, metaKey: boolean, shiftKey: boolean }
 type SelectionProps = { selectionStart: number, selectionEnd: number }
 type KeyActionEventProps = { charCode: number, keyCode: number, location: number, repeat: boolean, key: string } & KeyEventProps
-declare function onEvent<t extends "click" | "mousemove" | "mousedown" | "mouseup" | "mouseover" | "mouseout", id extends ElementId>(id: id, type: t, callback: (event: {
+declare function onEvent<t extends "click" | "mousemove" | "mousedown" | "mouseup" | "mouseover" | "mouseout", id extends string>(id: id, type: t, callback: (event: {
 	offsetX: number
 	offsetY: number
 	movementX: number
@@ -55,17 +54,31 @@ declare function onEvent<t extends "click" | "mousemove" | "mousedown" | "mouseu
 	x: number
 	y: number
 	type: t
-	toElementId: ElementId
+	toElementId: string
 } & BaseEventProps<id> & KeyEventProps) => void): void
 
-declare function onEvent<t extends "keyup" | "keydown" | "keypress", id extends ElementId>(id: id, type: t, callback: (event: {
+declare function onEvent<t extends "keyup" | "keydown" | "keypress", id extends string>(id: id, type: t, callback: (event: {
 	type: t
 } & BaseEventProps<id> & KeyActionEventProps) => void): void
 
-declare function onEvent<t extends "input", id extends ElementId>(id: id, type: t, callback: (event: {
+declare function onEvent<t extends "input", id extends string>(id: id, type: t, callback: (event: {
 	type: t
 } & BaseEventProps<id> & SelectionProps) => void): void
 
-declare function onEvent<t extends "change", id extends ElementId>(id: id, type: t, callback: (event: {
+declare function onEvent<t extends "change", id extends string>(id: id, type: t, callback: (event: {
 	type: t
 } & BaseEventProps<id> & KeyActionEventProps & SelectionProps) => void): void
+
+declare function setAttribute(id: string, attribute: "scrollTop", value: any): boolean
+
+/**
+ * Gets the attribute of an element
+ * @example getAttribute(id, attribute) === document.getElementById(id)[attribute].toString()
+ */
+declare function getAttribute(id: string, attribute: string): string
+
+declare namespace console {
+	function log(...args: any[]): void;
+}
+
+declare const window: { [s: string]: any };
