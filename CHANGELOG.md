@@ -6,3 +6,8 @@
 
 ## 1.1.1
 - Attempt to fix type folder not being included
+
+## 1.2.0
+- Typescript compiler fixes.
+- Added support for Nomx, a Nom-like library but more strict and exclusive to cdo-sync. Recommended use with typescript.
+- Fixed design.html

@@ -33,6 +33,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand("cdo-sync.syncSource", updateAndSyncSource)
   );
 
+
   context.subscriptions.push(
     vscode.commands.registerCommand("cdo-sync.syncAnimations", syncAnimations)
   );

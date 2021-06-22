@@ -11,10 +11,12 @@ import {
 import { getCSRF, uploadFileAsAnimation } from "../functions/request";
 import state from "../functions/state";
 import * as vscode from "vscode";
-import { readFile } from "../functions/fs";
+import { createFile, readFile } from "../functions/fs";
 import { v4 as uuid } from "uuid";
 import imageSize from "image-size";
 import transformAnimations from "../functions/transformAnimations";
+import { join } from "path";
+import * as htmlparser from "node-html-parser";
 
 export default async function startInWatch() {
   const config = await getConfig();
@@ -90,6 +92,41 @@ export default async function startInWatch() {
           if (newHtml) {
             const source = JSON.parse(readFile("internal/source.json")!);
             source.html = newHtml;
+            createFile(join("internal", "source.json"), JSON.stringify(source, null, 1));
+
+            const parsedtree = htmlparser.parse(newHtml);
+            const mapByIds: { [s: string]: string } = {};
+            parsedtree.querySelectorAll("*").forEach((el) => {
+              if (el.id !== "designModeViz") {
+                let elType: string;
+                
+                if (el.classNames === "screen") {
+                  elType = "screen";
+                } else if (el.tagName === "BUTTON") {
+                  elType = "button";
+                } else if (el.tagName === "INPUT") {
+                  elType = "input";
+                } else if (el.tagName === "DIV") {
+                  elType = "container";
+                } else if (el.tagName === "SPAN") {
+                  elType = "span";
+                } else if (el.tagName === "LABEL") {
+                  elType = "label";
+                } else {
+                  elType = "container";
+                }
+                mapByIds[el.id] = elType!;
+              }
+            });
+            let text = "";
+            console.log(mapByIds);
+            for (const id in mapByIds) {
+              const dt = id.match(/^([a-zA-Z0-9\_\-]+)(?:\#([a-zA-Z0-9_\$]+))?$/);
+              if (dt) {
+                text+=`const $$${dt[1]}: ${dt[2]?"any": `InstanceType<Nomx.allTypes["${mapByIds[dt[0]]}"]>`}\n`
+              }
+            }
+            createFile("workspace/types/nomx-ids.d.ts", text);
           } else {
             vscode.window.showErrorMessage("Cannot find workspace/design.html");
           }
