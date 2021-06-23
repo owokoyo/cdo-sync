@@ -11,3 +11,9 @@
 - Typescript compiler fixes.
 - Added support for Nomx, a Nom-like library but more strict and exclusive to cdo-sync. Recommended use with typescript.
 - Fixed design.html
+
+## 1.2.1
+- Patch for stuff I did not include in the last version: Proper support for Nomx definitions and library
+
+## 1.2.2
+- A few updates for Nomx, basically more properties. And a new class, RippleButton.

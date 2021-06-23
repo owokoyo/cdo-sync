@@ -37,7 +37,7 @@ declare function playSound(url: string, loop: true | false, loaded?: () => void)
 
 declare function getUserId(): string
 
-type BaseEventProps<id extends string> = { currentTargetId: id, targetId: string, srcElementId: string, which: number }
+type BaseEventProps<id extends string = string> = { currentTargetId: id, targetId: string, srcElementId: string, which: number }
 type KeyEventProps = { ctrlKey: boolean, altKey: boolean, metaKey: boolean, shiftKey: boolean }
 type SelectionProps = { selectionStart: number, selectionEnd: number }
 type KeyActionEventProps = { charCode: number, keyCode: number, location: number, repeat: boolean, key: string } & KeyEventProps

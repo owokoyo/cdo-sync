@@ -6,7 +6,7 @@
 		"jsx": "react",
 		"jsxFactory": "Nomx.createElement",
 		"lib": [
-			"es5"
+			"ES2015.iterable"
 		],
 		"typeRoots": [
 			"./workspace"

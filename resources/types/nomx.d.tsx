@@ -1,7 +1,26 @@
 /**
- * Too lazy to fix declaration problems;
- */
-declare namespace Nomx {
+ * # Nomx
+ * The most advanced framework for Applab. Ever.
+ * - Build components via class extension as well and native types.
+ * - Features an object oriented system that supports JSX syntax and full typescript support.
+ * - Built-in html parser and extensive use of getAttribute gives access to previously off limit properties, such as:
+ *   * The channelId of the app.
+ *   * The children of an element.
+ *   * The screens and active screen of a project.
+ *   * And more!
+ * 
+ * @example
+ * class ChatContainerSingleton extends Nomx.Container {
+ * 		addMessage(message: string){
+ * 			this.addChildren(<div>{message}</div>)
+ * 		}
+ * }
+ * const chatContainer = <ChatContainerSingleton style="position: absolute; width: 100%; height: 100%; overflow: auto"/> as ChatContainerSingleton
+ * chatContainer.addMessage("hi, how are you");
+ * chatContainer.addMessage("I'm fine");
+*/
+
+namespace Nomx {
 
 	const prefix = "Nomx_Gen_"
 	let counter = 0;
@@ -255,21 +274,26 @@ declare namespace Nomx {
 		}
 	})();
 
+
 	export abstract class Element {
 		id: string;
 		props: convertClassToProps<this>; //little magic thing that forces typescript to shut up
 
-		private _lastinnerHTML: string = "";
-		private _innerHTMLTree: HTMLTree[] = [];
+		private _lastouterHTML: string = "";
+		private _outerHTMLTree?: HTMLTree;
 
-		get innerHTMLTree() {
-			if (this._lastinnerHTML === this.innerHTML) {
-				return this._innerHTMLTree;
+		get outerHTMLTree() {
+			if (this._lastouterHTML === this.outerHTML) {
+				return this._outerHTMLTree!;
 			} else {
-				this._lastinnerHTML = this.innerHTML;
-				this._innerHTMLTree = parser.tree(this.innerHTML)
-				return this._innerHTMLTree
+				this._lastouterHTML = this.outerHTML;
+				this._outerHTMLTree = parser.tree(this.outerHTML)[0]
+				return this._outerHTMLTree
 			}
+		}
+
+		get childElementCount(): number {
+			return parseInt(this.getAttribute("childElementCount"))
 		}
 
 		get className(): string {
@@ -277,7 +301,40 @@ declare namespace Nomx {
 		}
 
 		get children(): ReadonlyArray<Nomx.Element> {
-			return this.innerHTMLTree.map(e => get(e.id, "container")) as ReadonlyArray<Nomx.Element>
+			return this.outerHTMLTree.children.map(e => get(e.id, "container")) as ReadonlyArray<Nomx.Element>
+		}
+
+		on<t extends "click" | "mousemove" | "mousedown" | "mouseup" | "mouseover" | "mouseout">(type: t, callback: (event: {
+			offsetX: number
+			offsetY: number
+			movementX: number
+			pageX: number
+			movementY: number
+			pageY: number
+			clientX: number
+			clientY: number
+			button: number
+			x: number
+			y: number
+			type: t
+			toElementId: string
+		} & BaseEventProps & KeyEventProps) => void): void
+
+		on<t extends "keyup" | "keydown" | "keypress", id extends string>(type: t, callback: (event: {
+			type: t
+		} & BaseEventProps & KeyActionEventProps) => void): void
+
+		on<t extends "input">(type: t, callback: (event: {
+			type: t
+		} & BaseEventProps & SelectionProps) => void): void
+
+		on<t extends "change", id extends string>(type: t, callback: (event: {
+			type: t
+		} & BaseEventProps & KeyActionEventProps & SelectionProps) => void): void
+
+
+		on(t: string, callback: (event: any) => void) {
+			onEvent(this.id, t as "change", callback)
 		}
 
 		setStyle(style: string) {
@@ -299,9 +356,17 @@ declare namespace Nomx {
 		set style(style: string) {
 			this.setStyle(style);
 		}
-
 		get style() {
-			return this.getAttribute("style");
+			for (const attr of this.outerHTMLTree.attributes) {
+				if (attr.name === "style") {
+					return attr.value
+				}
+			}
+			return ""
+		}
+
+		get outerHTML() {
+			return this.getAttribute("outerHTML");
 		}
 
 		get innerHTML() {
@@ -322,6 +387,32 @@ declare namespace Nomx {
 
 		set scrollTop(y: number) {
 			setAttribute(this.id, "scrollTop", y);
+		}
+
+		get borderWidth() {
+			return getProperty(this.id, "border-width")
+		}
+		set borderWidth(value: number) {
+			setProperty(this.id, "border-width", value)
+		}
+
+		get borderColor() {
+			return getProperty(this.id, "border-color")
+		}
+
+		set borderColor(value: number) {
+			setProperty(this.id, "border-clor", value)
+		}
+
+		set display(display: "inline" | "block" | "contents" | "flex" | "grid" | "inline-block" | "inline-flex" | "inline-grid" | "inline-table" | "list-item" | "run-in" | "table" | "table-caption" | "table-column-group" | "table-header-group" | "table-footer-group" | "table-row-group" | "table-cell" | "table-column" | "table-row" | "none" | "initial" | "inherit") {
+			this.setStyle(`display: ${display}`)
+		}
+
+		set padding(value: number | string) {
+			this.setStyle(`padding: ${typeof value === "number" ? `${value}px` : value}`)
+		}
+		set margin(value: number | string) {
+			this.setStyle(`margin: ${typeof value === "number" ? `${value}px` : value}`)
 		}
 
 		/**
@@ -349,7 +440,7 @@ declare namespace Nomx {
 			}
 		}
 
-		constructor(isNew: boolean, id: string, children?: DestructibleElement[]) {
+		constructor(isNew: boolean, id: string) {
 			this.props = {}
 			this.id = id;
 		}
@@ -363,16 +454,56 @@ declare namespace Nomx {
 			return this._parent;
 		}
 
-		set display(display: "inline" | "block" | "contents" | "flex" | "grid" | "inline-block" | "inline-flex" | "inline-grid" | "inline-table" | "list-item" | "run-in" | "table" | "table-caption" | "table-column-group" | "table-header-group" | "table-footer-group" | "table-row-group" | "table-cell" | "table-column" | "table-row" | "none" | "initial" | "inherit") {
-			this.setStyle(`display: ${display}`)
+		get width() {
+			return getProperty(this.id, "width")
+		}
+		set width(value: number) {
+			setProperty(this.id, "width", value)
+		}
+
+		get height() {
+			return getProperty(this.id, "height")
+		}
+		set height(value: number) {
+			setProperty(this.id, "height", value)
 		}
 
 		set position(position: "static" | "relative" | "fixed" | "absolute" | "sticky") {
 			this.setStyle(`position: ${position}`)
 		}
 
+		/** For absolute positioning */
 		set left(value: number | string) {
-			this.setStyle(`position: ${typeof value === "number" ? `${value}px` : value}`)
+			this.setStyle(`left: ${typeof value === "number" ? `${value}px` : value}`)
+		}
+
+		/** For absolute positioning */
+		set right(value: number | string) {
+			this.setStyle(`right: ${typeof value === "number" ? `${value}px` : value}`)
+		}
+
+		/** For absolute positioning */
+		set top(value: number | string) {
+			this.setStyle(`top: ${typeof value === "number" ? `${value}px` : value}`)
+		}
+
+		/** For absolute positioning */
+		set bottom(value: number | string) {
+			this.setStyle(`bottom: ${typeof value === "number" ? `${value}px` : value}`)
+		}
+
+		get x() {
+			return getProperty(this.id, "x")
+		}
+		set x(value: number) {
+			setProperty(this.id, "x", value)
+		}
+
+		get y() {
+			return getProperty(this.id, "y")
+		}
+		set y(value: number) {
+			setProperty(this.id, "y", value)
 		}
 
 		set parent(parent: Element | undefined) {
@@ -380,6 +511,7 @@ declare namespace Nomx {
 			setParent(this.id, parent.id)
 			this._parent = parent
 		}
+
 
 		delete() {
 			deleteElement(this.id)
@@ -401,6 +533,13 @@ declare namespace Nomx {
 		get text() {
 			return getProperty(this.id, "text")
 		}
+
+		set fontSize(size: number) {
+			setProperty(this.id, "font-size", size)
+		}
+		get fontSize(): number {
+			return getProperty(this.id, "font-size")
+		}
 	}
 
 	export class Label extends TextElement {
@@ -413,8 +552,10 @@ declare namespace Nomx {
 	}
 
 	export class Button extends TextElement {
-		set onClick(callback: () => void) {
-			onEvent(this.id, "click", callback)
+		onClick = (event: BaseEventProps) => { };
+
+		set pure(v: true) {
+			this.setStyle("border: 0px; background-image: none")
 		}
 
 		constructor(isNew: boolean, id: string) {
@@ -422,24 +563,99 @@ declare namespace Nomx {
 			if (isNew) {
 				button(id, "")
 			}
+			this.on("click", (event) => {
+				this.onClick(event);
+			})
 		}
 	}
 
-	export class Input extends TextElement {
-		onSubmit(callback: () => void): void {
-			onEvent(this.id, "keypress", (key) => {
+	export class RippleButton extends Button {
+		ripples: Container[] = []
+		color = "#FFF"
+		shadow = false;
+		textElement = Nomx.create("container", { parent: this });
 
-			})
+		set text(value: string) {
+			this.textElement.text = value;
 		}
+		get text() {
+			return this.textElement.text;
+		}
+
+		constructor(isNew: boolean, id: string) {
+			super(isNew, id)
+			this.setStyle("transition: box-shadow .3s; overflow: hidden");
+			this.on("mouseout", () => {
+				if (this.shadow) {
+					this.setStyle("box-shadow: none");
+				}
+				var ripples = this.ripples;
+				setTimeout(() => {
+					ripples.forEach((ripple) => {
+						ripple.setStyle("opacity: 0");
+						setTimeout(function () {
+							ripple.delete();
+						}, 1000);
+					});
+				}, 50);
+				this.ripples = [];
+			});
+			this.on("mouseup", () => {
+				if (this.shadow) {
+					this.setStyle("box-shadow: none");
+				}
+				var ripples = this.ripples;
+				setTimeout(() => {
+					ripples.forEach((ripple) => {
+						ripple.setStyle("opacity: 0");
+						setTimeout(function () {
+							ripple.delete();
+						}, 1000);
+					});
+				}, 50);
+				this.ripples = [];
+			});
+			this.on("mousedown", (event) => {
+				if (this.shadow) {
+					this.setStyle("box-shadow: rgb(0 0 0 / 20%) 0px 3px 3px -2px, rgb(0 0 0 / 14%) 0px 3px 4px 0px, rgb(0 0 0 / 12%) 0px 1px 8px 0px");
+				}
+				var ripple = Nomx.create("container", { parent: this })
+				ripple.setStyle("pointer-events: none;opacity: 80%;transition: opacity 1s, width 1.5s, height 1.5s;transform: translate(-50%, -50%);width: 1px; height:1px; border-radius: 1000px;position: absolute");
+				this.ripples.push(ripple);
+				ripple.x = event.offsetX;
+				ripple.y = event.offsetY;
+				setTimeout(function () { ripple.setStyle("opacity: 40%;width: 800px; height:800px") }, 50);
+				ripple.backgroundColor = this.color;
+			});
+
+		}
+	}
+
+	/** Textbox */
+	export class Input extends TextElement {
+		onSubmit = (event: BaseEventProps) => { }
 		constructor(isNew: boolean, id: string) {
 			super(isNew, id)
 			if (isNew) {
 				textInput(id, "");
 			}
+			this.on("keypress", (event) => {
+				if (event.keyCode === 13) {
+					this.onSubmit(event)
+				}
+			})
 		}
 	}
 
+	/** Container. aka <div>
+	 * Css may be different. For example there is line-height set to 18px
+	 */
 	export class Container extends TextElement {
+		/** Makes the container a full page */
+		set fill(value: boolean) {
+			this.setStyle("width: 100%; height: 100%; position: absolute")
+		}
+
 		constructor(isNew: boolean, id: string) {
 			super(isNew, id)
 			if (isNew) {
@@ -448,9 +664,13 @@ declare namespace Nomx {
 		}
 	}
 
+	/** Represents a screen */
 	export class Screen extends TextElement {
 		get isActiveScreen(): boolean {
 			return this.style.match("display: none") !== null;
+		}
+		set() {
+			setScreen(this.id);
 		}
 		constructor(isNew: boolean, id: string, children?: DestructibleElement[]) {
 			super(isNew, id)
@@ -460,33 +680,43 @@ declare namespace Nomx {
 		}
 	}
 
+	/** For when you want to pass a string as an Element */
 	export class Span extends Container {
 		constructor(isNew: boolean, id: string) {
 			super(isNew, id)
-			this.setStyle("display: inline; padding: 0px")
+			this.style = "display: inline; padding: 0px"
 		}
 	}
 
+	/** Represents a line break */
 	export class Break extends Container {
+		/** This will error */
+		addChildren() {
+			throw "Line breaks can't have children, silly."
+		}
 		constructor(isNew: boolean, id: string) {
 			super(isNew, id);
-			if (isNew) {
-				this.style = "margin-bottom: 10px"
-			}
+			this.style = "margin-bottom: 10px"
 		}
 	}
 
-	//singleton class that represents divApplab
+	/** singleton class that represents divApplab */
 	export class Root extends Element {
+		id: "divApplab" = "divApplab"
+
+		/** Every element (that has an id) in the app (Computationally expensive, best you use caches) */
 		get nodes(): ReturnType<typeof parser.nodes> {
 			return parser.nodes(this.innerHTML);
 		}
+
+		/** Returns every screen. (Computationally expensive, best you use caches) */
 		get screens(): Screen[] {
 			return this.children.filter(c => {
 				return c.className === "screen"
 			}) as Screen[];
 		}
 
+		/** Returns current screen. (Computationally expensive, best you use caches) */
 		get activeScreen(): Screen {
 			return this.children.filter(c => {
 				return c.className === "screen" && c.style.match("display: none");
@@ -504,6 +734,7 @@ declare namespace Nomx {
 		span: typeof Span,
 		label: typeof Label,
 		br: typeof Break,
+		ripplebutton: typeof RippleButton,
 	}
 
 
@@ -522,21 +753,64 @@ declare namespace Nomx {
 		container: Container,
 		span: Span,
 		element: Element,
-		root: Root
+		root: Root,
+		ripplebutton: RippleButton,
 	}
 
-	export type convertClassToProps<c> = { [k in keyof c]?: c[k] extends (callback: (...args: any[]) => any) => void ? (...args: any[]) => any : c[k] }
 
+	//export type convertClassToProps<c> = { [k in keyof c]?: c[k] extends (callback: (...args: any[]) => any) => void ? (...args: any[]) => any : c[k] }
+	export type convertClassToProps<c> = { [k in keyof c]?: c[k] };
+
+	type CreateChildren = string | DestructibleElement | CreateChildren[]
 	/**
 	 * Creates a new element given type
 	 * @param ElementType Type of element. Can be a string or a class.
 	 * @param props Object with properties such as `text`
 	 * @param children List of children auto-parented using the .children() method
 	 */
-	export function create<e extends keyof creatableTypes>(ElementType: e, props?: convertClassToProps<creatableTypes[e]>, ...children: (DestructibleElement | string)[]): InstanceType<creatableTypes[e]>
-	export function create<e extends creatableTypes[keyof creatableTypes]>(ElementType: e, props?: convertClassToProps<e>, ...children: (DestructibleElement | string)[]): InstanceType<e>
-	export function create<e extends keyof creatableTypes>(ElementType: e, props?: convertClassToProps<creatableTypes[e]>, children?: (DestructibleElement | string)[]): InstanceType<creatableTypes[e]>
-	export function create<e extends creatableTypes[keyof creatableTypes]>(ElementType: e, props?: convertClassToProps<e>, children?: (DestructibleElement | string)[]): InstanceType<e>
+	export function create<e extends keyof creatableTypes>(ElementType: e, props?: convertClassToProps<InstanceType<creatableTypes[e]>>, ...children: CreateChildren[]): InstanceType<creatableTypes[e]>
+	export function create<e extends creatableTypes[keyof creatableTypes]>(ElementType: e, props?: convertClassToProps<InstanceType<e>>, ...children: CreateChildren[]): InstanceType<e>
+	//	export function create<e extends keyof creatableTypes>(ElementType: e, props?: convertClassToProps<creatableTypes[e]>, children?: CreateChildren[]): InstanceType<creatableTypes[e]>
+	//	export function create<e extends creatableTypes[keyof creatableTypes]>(ElementType: e, props?: convertClassToProps<e>, children?: CreateChildren[]): InstanceType<e>	
+
+	export function create(ElementType: keyof creatableTypes | creatableTypes[keyof creatableTypes], props?: { [s: string]: unknown }, ...children: CreateChildren[]) {
+		if (props == undefined) {
+			props = {}
+		}
+
+		const computedChildren: DestructibleElement[] = [];
+		if (children.length === 1 && typeof children[0] === "string") {
+			props.text = children[0]
+		} else {
+			function spread(arr: CreateChildren[]) {
+				for (const val of arr) {
+					if (Array.isArray(val)) {
+						spread(val)
+					} else if (typeof val === "string") {
+						computedChildren.push(Nomx.create("span", {
+							text: val
+						}))
+					} else { computedChildren.push(val); }
+
+				}
+			}
+			spread(children);
+		}
+
+		let element: any;
+		//children: [DestructibleElement | string]
+		if (typeof ElementType === "string") {
+			element = new allIndex[ElementType](true, prefix + (++counter).toString())
+		} else {
+			element = new ElementType(true, prefix + (++counter).toString())
+		}
+		ElementsById[element.id] = element;
+		(element as Element).addChildren(computedChildren);
+		Object.keys(props).map(key => {
+			(element as any)[key] = props![key];
+		})
+		return element;
+	}
 
 	/**
 	 * @deprecated The use of getElement is bad practice as all pre-existing elements are already defined ("$$elementId") and usage with default applab functions is not advised.
@@ -559,7 +833,7 @@ declare namespace Nomx {
 	}
 
 	/** Represents divApplab; of which all elements **must** be parented to. */
-	export const root = Nomx.get("divApplab", Root)
+	export const root: Root = Nomx.get("divApplab", Root)
 
 	let uninitiatedIds: RegExpMatchArray[] = [];
 	root.nodes.forEach(el => {
@@ -581,12 +855,16 @@ declare namespace Nomx {
 			} else {
 				elType = "container";
 			}
+
 			const dt = el.id.match(/^([a-zA-Z0-9\_\-]+)(?:\#([a-zA-Z0-9_\$]+))?$/);
 			if (dt) {
 				if (dt[2]) {
-					uninitiatedIds.push(dt)
-				} else {
+					elType = dt[2];
+				}
+				if (elType in allIndex) {
 					window[`$$${dt[1]}`] = Nomx.get(dt[0], elType as keyof allTypes)
+				} else {
+					uninitiatedIds.push(dt)
 				}
 			}
 		}
@@ -596,6 +874,9 @@ declare namespace Nomx {
 		console.log("Custom classes detected!; Make sure to call Nomx.initiateWithClasses() after class declarations.")
 	}
 
+	/**
+	 * Call after you have declared your classes in global scope!
+	 */
 	export function initiateWithClasses() {
 		uninitiatedIds.forEach(([id, rid, c]) => {
 			window[`$$${rid}`] = Nomx.get(id, window[c]);
@@ -625,7 +906,7 @@ namespace JSX {
 	};
 
 	export interface ElementAttributesProperty {
-		props: Nomx.convertClassToProps<this>;
+		props: {};
 	}
 
 
@@ -636,18 +917,6 @@ namespace JSX {
 		div: Nomx.convertClassToProps<Nomx.Container>
 		label: Nomx.convertClassToProps<Nomx.Label>
 		br: Nomx.convertClassToProps<Nomx.Break>
+		ripplebutton: Nomx.convertClassToProps<Nomx.RippleButton>
 	}
 }
-/*
-$$submit.onClick = () => {
-	if ($$password.text === $$confirm.text) {
-
-		$$result.text = "Hold On.."
-		createRecord("logins", { username: $$username.text, password: $$password.text }, (result) => {
-			$$result.text = `Generated ${result.id}`
-		})
-	} else {
-		$$result.text = "Password must match!"
-	}
-}
-*/

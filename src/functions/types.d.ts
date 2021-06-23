@@ -8,6 +8,7 @@ type config = {
   rootPath: string;
 };
 type library = {
+  code?: string
   name: string;
   channelId: string
   description: string
