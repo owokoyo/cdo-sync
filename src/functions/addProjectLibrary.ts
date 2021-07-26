@@ -1,3 +1,6 @@
+import { fstat, readFileSync } from "fs";
+import { readFile } from "fs-extra";
+import { dirname } from "path";
 import * as vscode from "vscode";
 import { transformLibraries } from "./sync";
 import { library } from "./types";
@@ -10,6 +13,9 @@ export default function addProjectLibrary(library: library) {
 			vscode.window.showWarningMessage(`Library ${library.name} (${library.channelId}) already exists. Replacing.`);
 		}
 		vscode.window.showInformationMessage(`Added ${library.name}!`);
+		if (library.codeLink) {
+			library.code = readFileSync(dirname(dirname(__dirname))+"/resources/libraries/"+library.codeLink).toString();
+		}
 		if (library.code) {
 			library.source = `}); ${library.code}\n !(function(){0`
 			delete library.code;

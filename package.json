@@ -2,7 +2,7 @@
   "name": "cdo-sync",
   "displayName": "cdo-sync",
   "description": "Write code.org projects in typescript or es6 and sync to code.org",
-  "version": "1.2.2",
+  "version": "1.3.0",
   "publisher": "Owokoyo",
   "repository": {
     "url": "https://ww.github.com/owokoyo/cdo-sync"

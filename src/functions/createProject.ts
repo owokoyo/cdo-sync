@@ -37,6 +37,8 @@ function createProject(
     )
   );
 
+  createFile(".gitignore", "cdo-sync-config.json");
+
   createDirectory("internal");
 
   let sourceJSON: {
