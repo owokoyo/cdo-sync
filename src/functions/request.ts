@@ -70,7 +70,9 @@ function syncSource(
     },
     body: source,
     method: "PUT",
-  });
+  }).then(e=>{
+    console.log(e);
+  }).catch(e=>{console.log(e);});
   vscode.window.showInformationMessage("Updating Source");
   state.sourceUpdatedCallback();
 }

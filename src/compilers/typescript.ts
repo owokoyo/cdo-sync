@@ -13,7 +13,7 @@ function escape(str: string){
 }
 
 function transform(file: string, rootPath: string) {
-
+  console.log(rootPath);
   
 
   exec(
@@ -26,7 +26,7 @@ function transform(file: string, rootPath: string) {
     " --out " +
     join(escape(rootPath), "out", "out.js").replace(" ","\\ ")
   );
-  return readFile(join(escape(rootPath), "out", "out.js"));
+  return readFile(join("out", "out.js"));
 }
 
 
