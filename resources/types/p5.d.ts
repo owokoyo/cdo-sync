@@ -1,4 +1,4 @@
-declare module 'lib/addons/p5.dom' {
+declare global {
 	// This file was auto-generated. Please do not edit it.
 
 	import * as p5 from '../../index'; module '../../index' {
