@@ -167,6 +167,8 @@ export namespace p5 {
 		visible: boolean;
 		velocityY: number;
 		velocityX: number;
+        bounciness: number;
+        rotationSpeed: number;
 		debug: boolean;
 
 		isTouching(target: SpriteOrGroup): boolean;
@@ -175,6 +177,23 @@ export namespace p5 {
 		collide(target: SpriteOrGroup): void;
 		displace(target: SpriteOrGroup): void;
 		overlap(target: SpriteOrGroup): boolean;
+        setSpeed(speed: number): void;
+        setFrame(frame: number): void;
+        destroy(): void;
+        pause(): void;
+
+        /**
+         * Gets horizontal direction
+         */
+        mirrorX(): number;
+        /** Sets horizontal mirror */
+        mirrorX(dir: number);
+
+        /** Gets vertical direction */
+        mirrorY(): number;
+
+        /** Sets vertical mirror */
+        mirrorY(dir: number);
 
 		setAnimation(label: string): void;
 		setSpeedAndDirection(speed: number, direction: number): void;
@@ -183,15 +202,15 @@ export namespace p5 {
 			collider: "rectangle",
 			offsetX: number,
 			offsetY: number,
-			width: number,
-			height: number,
-			rotationOffset: number
+			width?: number,
+			height?: number,
+			rotationOffset?: number
 		): void;
 		setCollider(
 			collider: "circle",
 			offsetX: number,
 			offsetY: number,
-			radius: number
+			radius?: number
 		): void;
 		setCollider(collider: "point", offsetX: number, offsetY: number): void;
 		overlap(target: SpriteOrGroup): boolean;
@@ -375,14 +394,17 @@ declare global {
 	//text
 	function textAlign(x: p5.AlignmentX, y?: p5.AlignmentY): void;
 	function text(
-		text: string,
+		text: any, // string number and array are supported. Object will just be [object Object]
 		x: number,
 		y: number,
 		w?: number,
 		h?: number
 	): void;
 	function textFont(font: p5.FontString | p5.Font): void;
+    
 	function textSize(size: number): void;
+	function textSize(): number;
+
 
 	//translations or whatever
 	function translate(x: number, y: number): void;
@@ -417,17 +439,21 @@ declare global {
 		readonly pInst: p5.pInst;
 
 		readonly allSprites: p5.Group;
-		readonly frameRate: number;
+		frameRate: number;
 		readonly frameCount: number;
 		readonly mouseX: number;
 		readonly mouseY: number;
 	};
 
+    const mouseX: number;
+    const mouseY: number;
+    const allSprites: number;
+
 	const camera: {
-		readonly x: number;
-		readonly y: number;
-		readonly zoom: number;
-		readonly scale: number;
+		x: number;
+	    y: number;
+		zoom: number;
+		scale: number;
 		readonly mouseX: number;
 		readonly mouseY: number;
 		on(): void;
