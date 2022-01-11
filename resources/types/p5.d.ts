@@ -43,12 +43,18 @@ export namespace p5 {
 	type MouseType = "leftButton" | "rightButton";
 
 	type ColorMode = "rgb";
-	type Image = "abc";
 	type AlignmentX = "center" | "left" | "right";
 	type AlignmentY = "baseline" | "top" | "bottom" | "center";
 	type FontString = "Arial" | "Courier New" | string; //ee
 	type ColorChoice = Color | string | number;
 	type ArcMode = "chord" | "pie" | "open";
+
+
+    interface Image {
+
+    }
+
+    type Graphics = any; // i can't be both
 
 	interface Lang {
 		en: string;
@@ -287,7 +293,14 @@ export namespace p5 {
 	}
 }
 
+export namespace Bruh {
+    function e(): void
+}
+
 declare global {
+    
+    function createGraphics(x: number,y: number,w: number,h: number): p5.Graphics;
+
 	function rgb(r: number, g: number, b: number, a?: number): p5.Color;
 	function noSmooth(): void;
 	function background(color: p5.ColorChoice): void;
@@ -308,6 +321,11 @@ declare global {
 	): p5.Sprite & customProps;
 	function createGroup(): p5.Group;
 	function createEdgeSprites(): void;
+
+    function get(x: number, y: number): [number, number, number, number];
+    function set(x: number, y: number, color: p5.ColorChoice): void;
+
+    function image(img: p5.Image | p5.Graphics, x: number, y: number, w?: number, h?: number, dx?: number, dy?: number, dw?: number, dh?: number, sx?: number, sy?: number, sw?: number, sh?: number): void;
 
 	//inputs
 	function keyDown(key: p5.KeyType): boolean;
@@ -339,7 +357,10 @@ declare global {
 	): void;
 
 	/** Draws a rectangle with the top-left corner (x, y) Default width/height is 50 */
-	function rect(x: number, y: number, width?: number, height?: number): void;
+	function rect(x: number, y: number, width?: number, height?: number, tl?: number, tr?: number, br?: number, bl?: number, detailX?: number, detailY?: number): void;
+
+    /** Draws a triangle to the canvas. A triangle is a plane created by connecting three points. The first two arguments specify the first point, the middle two arguments specify the second point, and the last two arguments specify the third point. */
+    function triangle(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number)
 
 	/** Defines a vertex in a shape that is curved */
 	function curveVertex(x: number, y: number): void;
@@ -385,11 +406,22 @@ declare global {
 	//math
 	function atan2(y: number, x: number): number;
 	function atan(m: number): number;
+    function tan(m: number): number;
 	function cos(m: number): number;
 	function sin(m: number): number;
+	function asin(m: number): number;
+	function acos(m: number): number;
+    function degrees(m: number): number;
+    function radians(m: number): number;
 	function random(): number;
 	function randomNumber(min: number, max: number): number;
 	function dist(x: number, y: number, x2: number, y2: number): number;
+	function max(m: number): number;
+	function min(m: number): number;
+	function round(m: number): number;
+	function pow(b: number, e: number): number;
+	function sq(m: number): number;
+	function sqrt(m: number): number;
 
 	//text
 	function textAlign(x: p5.AlignmentX, y?: p5.AlignmentY): void;
@@ -413,7 +445,19 @@ declare global {
 	//special stuff
 	function loadFont(font: string): p5.Font;
 
-	const CENTER = "center";
+    function rectMode(mode: "center" | "corners" | "corner" | "radius"): void;
+    function imageMode(mode: "center" | "corners" | "corner"): void;
+
+
+    function prompt(msg: string): string | null;
+    function promptNum(msg: string): number | null;
+
+	const RADIUS = "radius";
+	const CORNERS = "corners";
+	const CORNER = "corner";
+
+
+    const CENTER = "center";
 	const LEFT = "left";
 	const RIGHT = "right";
 	const BASELINE = "baseline";
@@ -434,6 +478,12 @@ declare global {
 	const QUAD_STRIP = "quad_strip";
 
 	const CLOSE = "close";
+
+    /** @readonly */
+    let keyCode: number;
+    
+    /** @readonly key is completely broken for all intents and purposes. use keyCode */
+    let key: string;
 
 	const World: {
 		readonly pInst: p5.pInst;
