@@ -31,15 +31,25 @@ export namespace p5 {
 		| "x"
 		| "y"
 		| "z"
+		| "1"
+		| "2"
+		| "3"
+		| "4"
+		| "5"
+		| "6"
+		| "7"
+		| "8"
+		| "9"
+		| "10"
 		| "ctrl"
 		| "space"
 		| "shift"
 		| "backspace"
-        | "UP_ARROW" //apparently constants like these also work
-        | "DOWN_ARROW"
-        | "LEFT_ARROW"
-        | "RIGHT_ARROW"
-        | number
+		| "UP_ARROW" //apparently constants like these also work
+		| "DOWN_ARROW"
+		| "LEFT_ARROW"
+		| "RIGHT_ARROW"
+		| number;
 	type MouseType = "leftButton" | "rightButton";
 
 	type ColorMode = "rgb";
@@ -49,12 +59,9 @@ export namespace p5 {
 	type ColorChoice = Color | string | number;
 	type ArcMode = "chord" | "pie" | "open";
 
+	interface Image {}
 
-    interface Image {
-
-    }
-
-    type Graphics = any; // i can't be both
+	type Graphics = any; // i can't be both
 
 	interface Lang {
 		en: string;
@@ -173,8 +180,8 @@ export namespace p5 {
 		visible: boolean;
 		velocityY: number;
 		velocityX: number;
-        bounciness: number;
-        rotationSpeed: number;
+		bounciness: number;
+		rotationSpeed: number;
 		debug: boolean;
 
 		isTouching(target: SpriteOrGroup): boolean;
@@ -183,23 +190,23 @@ export namespace p5 {
 		collide(target: SpriteOrGroup): void;
 		displace(target: SpriteOrGroup): void;
 		overlap(target: SpriteOrGroup): boolean;
-        setSpeed(speed: number): void;
-        setFrame(frame: number): void;
-        destroy(): void;
-        pause(): void;
+		setSpeed(speed: number): void;
+		setFrame(frame: number): void;
+		destroy(): void;
+		pause(): void;
 
-        /**
-         * Gets horizontal direction
-         */
-        mirrorX(): number;
-        /** Sets horizontal mirror */
-        mirrorX(dir: number);
+		/**
+		 * Gets horizontal direction
+		 */
+		mirrorX(): number;
+		/** Sets horizontal mirror */
+		mirrorX(dir: number);
 
-        /** Gets vertical direction */
-        mirrorY(): number;
+		/** Gets vertical direction */
+		mirrorY(): number;
 
-        /** Sets vertical mirror */
-        mirrorY(dir: number);
+		/** Sets vertical mirror */
+		mirrorY(dir: number);
 
 		setAnimation(label: string): void;
 		setSpeedAndDirection(speed: number, direction: number): void;
@@ -286,20 +293,24 @@ export namespace p5 {
 		setVelocityYEach(vy: number): void;
 		setVelocityEach(vx: number, vy: number): void;
 
-        /**
-         * Set the speed and direction of every sprite in the group.
-         */
-        setSpeedAndDirectionEach(speed: number, direction: number): void
+		/**
+		 * Set the speed and direction of every sprite in the group.
+		 */
+		setSpeedAndDirectionEach(speed: number, direction: number): void;
 	}
 }
 
 export namespace Bruh {
-    function e(): void
+	function e(): void;
 }
 
 declare global {
-    
-    function createGraphics(x: number,y: number,w: number,h: number): p5.Graphics;
+	function createGraphics(
+		x: number,
+		y: number,
+		w?: number,
+		h?: number
+	): p5.Graphics;
 
 	function rgb(r: number, g: number, b: number, a?: number): p5.Color;
 	function noSmooth(): void;
@@ -322,10 +333,24 @@ declare global {
 	function createGroup(): p5.Group;
 	function createEdgeSprites(): void;
 
-    function get(x: number, y: number): [number, number, number, number];
-    function set(x: number, y: number, color: p5.ColorChoice): void;
+	function get(x: number, y: number): [number, number, number, number];
+	function set(x: number, y: number, color: p5.ColorChoice): void;
 
-    function image(img: p5.Image | p5.Graphics, x: number, y: number, w?: number, h?: number, dx?: number, dy?: number, dw?: number, dh?: number, sx?: number, sy?: number, sw?: number, sh?: number): void;
+	function image(
+		img: p5.Image | p5.Graphics,
+		x: number,
+		y: number,
+		w?: number,
+		h?: number,
+		dx?: number,
+		dy?: number,
+		dw?: number,
+		dh?: number,
+		sx?: number,
+		sy?: number,
+		sw?: number,
+		sh?: number
+	): void;
 
 	//inputs
 	function keyDown(key: p5.KeyType): boolean;
@@ -357,10 +382,28 @@ declare global {
 	): void;
 
 	/** Draws a rectangle with the top-left corner (x, y) Default width/height is 50 */
-	function rect(x: number, y: number, width?: number, height?: number, tl?: number, tr?: number, br?: number, bl?: number, detailX?: number, detailY?: number): void;
+	function rect(
+		x: number,
+		y: number,
+		width?: number,
+		height?: number,
+		tl?: number,
+		tr?: number,
+		br?: number,
+		bl?: number,
+		detailX?: number,
+		detailY?: number
+	): void;
 
-    /** Draws a triangle to the canvas. A triangle is a plane created by connecting three points. The first two arguments specify the first point, the middle two arguments specify the second point, and the last two arguments specify the third point. */
-    function triangle(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number)
+	/** Draws a triangle to the canvas. A triangle is a plane created by connecting three points. The first two arguments specify the first point, the middle two arguments specify the second point, and the last two arguments specify the third point. */
+	function triangle(
+		x1: number,
+		y1: number,
+		x2: number,
+		y2: number,
+		x3: number,
+		y3: number
+	);
 
 	/** Defines a vertex in a shape that is curved */
 	function curveVertex(x: number, y: number): void;
@@ -406,13 +449,13 @@ declare global {
 	//math
 	function atan2(y: number, x: number): number;
 	function atan(m: number): number;
-    function tan(m: number): number;
+	function tan(m: number): number;
 	function cos(m: number): number;
 	function sin(m: number): number;
 	function asin(m: number): number;
 	function acos(m: number): number;
-    function degrees(m: number): number;
-    function radians(m: number): number;
+	function degrees(m: number): number;
+	function radians(m: number): number;
 	function random(): number;
 	function randomNumber(min: number, max: number): number;
 	function dist(x: number, y: number, x2: number, y2: number): number;
@@ -433,10 +476,9 @@ declare global {
 		h?: number
 	): void;
 	function textFont(font: p5.FontString | p5.Font): void;
-    
+
 	function textSize(size: number): void;
 	function textSize(): number;
-
 
 	//translations or whatever
 	function translate(x: number, y: number): void;
@@ -445,19 +487,17 @@ declare global {
 	//special stuff
 	function loadFont(font: string): p5.Font;
 
-    function rectMode(mode: "center" | "corners" | "corner" | "radius"): void;
-    function imageMode(mode: "center" | "corners" | "corner"): void;
+	function rectMode(mode: "center" | "corners" | "corner" | "radius"): void;
+	function imageMode(mode: "center" | "corners" | "corner"): void;
 
-
-    function prompt(msg: string): string | null;
-    function promptNum(msg: string): number | null;
+	function prompt(msg: string): string | null;
+	function promptNum(msg: string): number | null;
 
 	const RADIUS = "radius";
 	const CORNERS = "corners";
 	const CORNER = "corner";
 
-
-    const CENTER = "center";
+	const CENTER = "center";
 	const LEFT = "left";
 	const RIGHT = "right";
 	const BASELINE = "baseline";
@@ -479,29 +519,30 @@ declare global {
 
 	const CLOSE = "close";
 
-    /** @readonly */
-    let keyCode: number;
-    
-    /** @readonly key is completely broken for all intents and purposes. use keyCode */
-    let key: string;
+	/** @readonly */
+	let keyCode: number;
+
+	/** @readonly key is completely broken for all intents and purposes. use keyCode */
+	let key: string;
 
 	const World: {
 		readonly pInst: p5.pInst;
 
 		readonly allSprites: p5.Group;
 		frameRate: number;
+		readonly seconds: number;
 		readonly frameCount: number;
 		readonly mouseX: number;
 		readonly mouseY: number;
 	};
 
-    const mouseX: number;
-    const mouseY: number;
-    const allSprites: number;
+	const mouseX: number;
+	const mouseY: number;
+	const allSprites: number;
 
 	const camera: {
 		x: number;
-	    y: number;
+		y: number;
 		zoom: number;
 		scale: number;
 		readonly mouseX: number;
