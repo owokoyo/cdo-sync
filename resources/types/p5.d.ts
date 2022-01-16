@@ -183,6 +183,7 @@ export namespace p5 {
 		bounciness: number;
 		rotationSpeed: number;
 		debug: boolean;
+		draw: ()=>void;
 
 		isTouching(target: SpriteOrGroup): boolean;
 		bounce(target: SpriteOrGroup): void;
@@ -459,8 +460,8 @@ declare global {
 	function random(): number;
 	function randomNumber(min: number, max: number): number;
 	function dist(x: number, y: number, x2: number, y2: number): number;
-	function max(m: number): number;
-	function min(m: number): number;
+	function max(...vals: number[]): number;
+	function min(...vals: number[]): number;
 	function round(m: number): number;
 	function pow(b: number, e: number): number;
 	function sq(m: number): number;
@@ -479,6 +480,7 @@ declare global {
 
 	function textSize(size: number): void;
 	function textSize(): number;
+	function textWidth(width: number): void;
 
 	//translations or whatever
 	function translate(x: number, y: number): void;
