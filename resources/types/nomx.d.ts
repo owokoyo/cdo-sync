@@ -60,7 +60,7 @@ declare namespace Nomx {
         constructor(element: Element);
     }
     type StyleDeclaration = _sd & {
-        [k in (keyof typeof cssStyles)[number]]: unknown;
+        [k in (keyof typeof cssStyles)]: unknown;
     };
     const StyleDeclaration: typeof _sd;
     const cssStyles: {
@@ -794,8 +794,11 @@ declare namespace Nomx {
         constructor(isNew: boolean, id: string);
     }
     export class Button extends TextElement {
-        props: getProps<Button, "onClick" | "pure"> & TextElement["props"];
-        onClick: (event: BaseEventProps) => void;
+        props: getProps<Button, "onClick" | "pure" | "disabled"> & TextElement["props"];
+        onClick: (btn: this, event: BaseEventProps) => void;
+        private _disabled;
+        get disabled(): boolean;
+        set disabled(value: boolean);
         set pure(v: true);
         constructor(isNew: boolean, id: string);
     }
