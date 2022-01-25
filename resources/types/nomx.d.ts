@@ -817,7 +817,9 @@ declare namespace Nomx {
     }
     /** Textbox */
     export class Input extends TextElement {
-        props: getProps<Input, "onSubmit"> & TextElement["props"];
+        props: getProps<Input, "onSubmit" | "placeholder"> & TextElement["props"];
+        get placeholder(): string;
+        set placeholder(val: string);
         onSubmit: (event: BaseEventProps) => void;
         constructor(isNew: boolean, id: string);
     }
