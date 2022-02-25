@@ -243,7 +243,7 @@ export namespace p5 {
 	}
 
 	interface Group<T = {}> extends Array<Sprite & T> {
-		add(sprite: Sprite): void;
+		add(sprite: Sprite & T): void;
 		remove(sprite: Sprite): void;
 		clear(): void;
 		contains(sprite: Sprite): boolean;
@@ -335,13 +335,13 @@ declare global {
 		w?: number,
 		h?: number
 	): p5.Sprite;
-	function createSprite<customProps extends object>(
+	function createSprite<customProps extends object = {}>(
 		x?: number,
 		y?: number,
 		w?: number,
 		h?: number
 	): p5.Sprite & customProps;
-	function createGroup<customProps extends object>(): p5.Group<customProps>;
+	function createGroup<customProps extends object = {}>(): p5.Group<customProps>;
 	function createEdgeSprites(): void;
 
 	function get(x: number, y: number): [number, number, number, number];
@@ -476,6 +476,7 @@ declare global {
 	function pow(b: number, e: number): number;
 	function sq(m: number): number;
 	function sqrt(m: number): number;
+	function abs(n: number): number;
 
 	//text
 	function textAlign(x: p5.AlignmentX, y?: p5.AlignmentY): void;
