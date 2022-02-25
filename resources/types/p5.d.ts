@@ -59,6 +59,8 @@ export namespace p5 {
 	type ColorChoice = Color | string | number;
 	type ArcMode = "chord" | "pie" | "open";
 
+	type Vector4 = [number, number, number, number];
+	
 	interface Image {}
 
 	type Graphics = any; // i can't be both
@@ -120,14 +122,14 @@ export namespace p5 {
 		_getHue(): number;
 		_getLightness(): number;
 		_getSaturation(): number;
-		levels: [number, number, number, number];
+		levels: Vector4;
 		maxes: {
-			hsb: [number, number, number, number];
-			hsl: [number, number, number, number];
-			rgb: [number, number, number, number];
+			hsb: Vector4;
+			hsl: Vector4;
+			rgb: Vector4;
 		};
 		mode: ColorMode;
-		_array: [number, number, number, number];
+		_array: Vector4;
 	}
 
 	type pInst = {
@@ -182,9 +184,13 @@ export namespace p5 {
 		velocityX: number;
 		bounciness: number;
 		rotationSpeed: number;
+		alpha: number;
 		debug: boolean;
+		lifetime: number;
+
 		draw: ()=>void;
 
+		pointTo(x: number, y: number): void;
 		isTouching(target: SpriteOrGroup): boolean;
 		bounce(target: SpriteOrGroup): void;
 		bounceOff(target: SpriteOrGroup): void;
@@ -193,6 +199,7 @@ export namespace p5 {
 		overlap(target: SpriteOrGroup): boolean;
 		setSpeed(speed: number): void;
 		setFrame(frame: number): void;
+
 		destroy(): void;
 		pause(): void;
 
@@ -200,8 +207,9 @@ export namespace p5 {
 		 * Gets horizontal direction
 		 */
 		mirrorX(): number;
+		
 		/** Sets horizontal mirror */
-		mirrorX(dir: number);
+		mirrorX(dir: number): void;
 
 		/** Gets vertical direction */
 		mirrorY(): number;
@@ -230,6 +238,8 @@ export namespace p5 {
 		overlap(target: SpriteOrGroup): boolean;
 
 		setVelocity(vx: number, vy: number): void;
+		addToGroup(group: Group): void;
+
 	}
 
 	interface Group extends Array<Sprite> {
@@ -538,9 +548,11 @@ declare global {
 		readonly mouseY: number;
 	};
 
+
 	const mouseX: number;
 	const mouseY: number;
-	const allSprites: number;
+	const allSprites: p5.Group;
+	const edges: p5.Group;
 
 	const camera: {
 		x: number;
