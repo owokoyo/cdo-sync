@@ -1,321 +1,316 @@
-export namespace p5 {
-	type SpriteOrGroup = Sprite | Group;
-	type KeyType =
-		| "left"
-		| "right"
-		| "up"
-		| "down"
-		| "a"
-		| "b"
-		| "c"
-		| "d"
-		| "e"
-		| "f"
-		| "g"
-		| "h"
-		| "i"
-		| "j"
-		| "k"
-		| "l"
-		| "m"
-		| "n"
-		| "o"
-		| "p"
-		| "q"
-		| "r"
-		| "s"
-		| "t"
-		| "u"
-		| "v"
-		| "w"
-		| "x"
-		| "y"
-		| "z"
-		| "1"
-		| "2"
-		| "3"
-		| "4"
-		| "5"
-		| "6"
-		| "7"
-		| "8"
-		| "9"
-		| "10"
-		| "ctrl"
-		| "space"
-		| "shift"
-		| "backspace"
-		| "UP_ARROW" //apparently constants like these also work
-		| "DOWN_ARROW"
-		| "LEFT_ARROW"
-		| "RIGHT_ARROW"
-		| number;
-	type MouseType = "leftButton" | "rightButton";
-
-	type ColorMode = "rgb";
-	type AlignmentX = "center" | "left" | "right";
-	type AlignmentY = "baseline" | "top" | "bottom" | "center";
-	type FontString = "Arial" | "Courier New" | string; //ee
-	type ColorChoice = Color | string | number;
-	type ArcMode = "chord" | "pie" | "open";
-
-	type Vector4 = [number, number, number, number];
+declare global {
+	namespace p5 {
+		type SpriteOrGroup = Sprite | Group;
+		type KeyType =
+			| "left"
+			| "right"
+			| "up"
+			| "down"
+			| "a"
+			| "b"
+			| "c"
+			| "d"
+			| "e"
+			| "f"
+			| "g"
+			| "h"
+			| "i"
+			| "j"
+			| "k"
+			| "l"
+			| "m"
+			| "n"
+			| "o"
+			| "p"
+			| "q"
+			| "r"
+			| "s"
+			| "t"
+			| "u"
+			| "v"
+			| "w"
+			| "x"
+			| "y"
+			| "z"
+			| "1"
+			| "2"
+			| "3"
+			| "4"
+			| "5"
+			| "6"
+			| "7"
+			| "8"
+			| "9"
+			| "10"
+			| "ctrl"
+			| "space"
+			| "shift"
+			| "backspace"
+			| "UP_ARROW" //apparently constants like these also work
+			| "DOWN_ARROW"
+			| "LEFT_ARROW"
+			| "RIGHT_ARROW"
+			| number;
+		type MouseType = "leftButton" | "rightButton";
 	
-	interface Image {}
-
-	type Graphics = any; // i can't be both
-
-	interface Lang {
-		en: string;
-	}
-
-	interface Font {
-		parent: never;
-		cache: Record<
-			string,
-			{ x: number; y: number; h: number; w: number; advance: number }
-		>;
-		font: {
-			names: {
-				25: Lang;
-				256: Lang;
-				262: Lang;
-				copyright: Lang;
-				fontFamily: Lang;
-				fontSubfamily: Lang;
-				uniqueID: Lang;
-				fullName: Lang;
-				version: Lang;
-				postScriptName: Lang;
-				manufacturer: Lang;
-				designer: Lang;
-				manufacturerURL: Lang;
-				designerURL: Lang;
-				licence: Lang;
-				licenceURL: Lang;
-				preferredFamily: Lang;
-				preferredSubfamily: Lang;
+		type ColorMode = "rgb";
+		type AlignmentX = "center" | "left" | "right";
+		type AlignmentY = "baseline" | "top" | "bottom" | "center";
+		type FontString = "Arial" | "Courier New" | string; //ee
+		type ColorChoice = Color | string | number;
+		type ArcMode = "chord" | "pie" | "open";
+	
+		type Vector4 = [number, number, number, number];
+		
+		interface Image {}
+	
+		type Graphics = any; // i can't be both
+	
+		interface Lang {
+			en: string;
+		}
+	
+		interface Font {
+			parent: never;
+			cache: Record<
+				string,
+				{ x: number; y: number; h: number; w: number; advance: number }
+			>;
+			font: {
+				names: {
+					25: Lang;
+					256: Lang;
+					262: Lang;
+					copyright: Lang;
+					fontFamily: Lang;
+					fontSubfamily: Lang;
+					uniqueID: Lang;
+					fullName: Lang;
+					version: Lang;
+					postScriptName: Lang;
+					manufacturer: Lang;
+					designer: Lang;
+					manufacturerURL: Lang;
+					designerURL: Lang;
+					licence: Lang;
+					licenceURL: Lang;
+					preferredFamily: Lang;
+					preferredSubfamily: Lang;
+				};
+				unitsPerEm: number;
+				ascender: number;
+				descender: number;
+				supported: boolean;
+				gylphs: object; //too lazy
+				encoding: object;
+				tables: object;
+				outlinesFormat: string;
+				numberOfHMetrics: number;
+				numGylphs: number;
+				glyphNames: object;
+				kerningPairs: object;
+				getGposKerningValue: () => any;
 			};
-			unitsPerEm: number;
-			ascender: number;
-			descender: number;
-			supported: boolean;
-			gylphs: object; //too lazy
-			encoding: object;
-			tables: object;
-			outlinesFormat: string;
-			numberOfHMetrics: number;
-			numGylphs: number;
-			glyphNames: object;
-			kerningPairs: object;
-			getGposKerningValue: () => any;
-		};
-	}
-
-	interface Color {
-		toString(): string;
-		_getRed(): number;
-		_getGreen(): number;
-		_getBlue(): number;
-		_getAlpha(): number;
-		_getBrightness(): number;
-		_getHue(): number;
-		_getLightness(): number;
-		_getSaturation(): number;
-		levels: Vector4;
-		maxes: {
-			hsb: Vector4;
-			hsl: Vector4;
-			rgb: Vector4;
-		};
-		mode: ColorMode;
-		_array: Vector4;
-	}
-
-	type pInst = {
-		readonly _setupDone: boolean;
-		readonly _pixelDensity: number;
-		//readonly _userNode: HTMLDivElement
-		//readonly _curElement: e
-		//readonly _elements: e[]
-		readonly _requestAnimId: number;
-		readonly _preloadCount: number;
-		readonly _isGlobal: boolean;
-		readonly _loop: boolean;
-		readonly _styles: [];
-		readonly _defaultCanvasSize: {
+		}
+	
+		interface Color {
+			toString(): string;
+			_getRed(): number;
+			_getGreen(): number;
+			_getBlue(): number;
+			_getAlpha(): number;
+			_getBrightness(): number;
+			_getHue(): number;
+			_getLightness(): number;
+			_getSaturation(): number;
+			levels: Vector4;
+			maxes: {
+				hsb: Vector4;
+				hsl: Vector4;
+				rgb: Vector4;
+			};
+			mode: ColorMode;
+			_array: Vector4;
+		}
+	
+		type pInst = {
+			readonly _setupDone: boolean;
+			readonly _pixelDensity: number;
+			//readonly _userNode: HTMLDivElement
+			//readonly _curElement: e
+			//readonly _elements: e[]
+			readonly _requestAnimId: number;
+			readonly _preloadCount: number;
+			readonly _isGlobal: boolean;
+			readonly _loop: boolean;
+			readonly _styles: [];
+			readonly _defaultCanvasSize: {
+				readonly width: number;
+				readonly height: number;
+			};
+			readonly _events: {
+				mousemove: () => void;
+				mousedown: () => void;
+				mouseup: () => void;
+				dragend: () => void;
+				//...
+			};
+			readonly _loadingScreenId: "p5_loading";
+			//...
+			//canvas: HTMLCanvasElement
 			readonly width: number;
 			readonly height: number;
+			readonly drawContext: CanvasRenderingContext2D;
+			//_renderer:
+			readonly _isdefaultGraphics: boolean;
+			/**
+			 * @deprecated
+			 */
+			loadJSON: () => void;
 		};
-		readonly _events: {
-			mousemove: () => void;
-			mousedown: () => void;
-			mouseup: () => void;
-			dragend: () => void;
-			//...
-		};
-		readonly _loadingScreenId: "p5_loading";
-		//...
-		//canvas: HTMLCanvasElement
-		readonly width: number;
-		readonly height: number;
-		readonly drawContext: CanvasRenderingContext2D;
-		//_renderer:
-		readonly _isdefaultGraphics: boolean;
-		/**
-		 * @deprecated
-		 */
-		loadJSON: () => void;
-	};
-
-	interface Sprite {
-		x: number;
-		y: number;
-		width: number;
-		height: number;
-
-		scale: number;
-		rotation: number;
-		shapeColor: ColorChoice;
-		tint: ColorChoice;
-		depth: number;
-		visible: boolean;
-		velocityY: number;
-		velocityX: number;
-		bounciness: number;
-		rotationSpeed: number;
-		alpha: number;
-		debug: boolean;
-		lifetime: number;
-
-		draw: ()=>void;
-
-		pointTo(x: number, y: number): void;
-		isTouching(target: SpriteOrGroup): boolean;
-		bounce(target: SpriteOrGroup): void;
-		bounceOff(target: SpriteOrGroup): void;
-		collide(target: SpriteOrGroup): void;
-		displace(target: SpriteOrGroup): void;
-		overlap(target: SpriteOrGroup): boolean;
-		setSpeed(speed: number): void;
-		setFrame(frame: number): void;
-
-		destroy(): void;
-		pause(): void;
-
-		/**
-		 * Gets horizontal direction
-		 */
-		mirrorX(): number;
-		
-		/** Sets horizontal mirror */
-		mirrorX(dir: number): void;
-
-		/** Gets vertical direction */
-		mirrorY(): number;
-
-		/** Sets vertical mirror */
-		mirrorY(dir: number);
-
-		setAnimation(label: string): void;
-		setSpeedAndDirection(speed: number, direction: number): void;
-		setCollider(collider: "rectangle" | "circle" | "point"): void;
-		setCollider(
-			collider: "rectangle",
-			offsetX: number,
-			offsetY: number,
-			width?: number,
-			height?: number,
-			rotationOffset?: number
-		): void;
-		setCollider(
-			collider: "circle",
-			offsetX: number,
-			offsetY: number,
-			radius?: number
-		): void;
-		setCollider(collider: "point", offsetX: number, offsetY: number): void;
-		overlap(target: SpriteOrGroup): boolean;
-
-		setVelocity(vx: number, vy: number): void;
-		addToGroup(group: Group): void;
-
+	
+		interface Sprite {
+			x: number;
+			y: number;
+			width: number;
+			height: number;
+	
+			scale: number;
+			rotation: number;
+			shapeColor: ColorChoice;
+			tint: ColorChoice;
+			depth: number;
+			visible: boolean;
+			velocityY: number;
+			velocityX: number;
+			bounciness: number;
+			rotationSpeed: number;
+			alpha: number;
+			debug: boolean;
+			lifetime: number;
+	
+			draw: ()=>void;
+	
+			pointTo(x: number, y: number): void;
+			isTouching(target: SpriteOrGroup): boolean;
+			bounce(target: SpriteOrGroup): void;
+			bounceOff(target: SpriteOrGroup): void;
+			collide(target: SpriteOrGroup): void;
+			displace(target: SpriteOrGroup): void;
+			overlap(target: SpriteOrGroup): boolean;
+			setSpeed(speed: number): void;
+			setFrame(frame: number): void;
+	
+			destroy(): void;
+			pause(): void;
+	
+			/**
+			 * Gets horizontal direction
+			 */
+			mirrorX(): number;
+			
+			/** Sets horizontal mirror */
+			mirrorX(dir: number): void;
+	
+			/** Gets vertical direction */
+			mirrorY(): number;
+	
+			/** Sets vertical mirror */
+			mirrorY(dir: number);
+	
+			setAnimation(label: string): void;
+			setSpeedAndDirection(speed: number, direction: number): void;
+			setCollider(collider: "rectangle" | "circle" | "point"): void;
+			setCollider(
+				collider: "rectangle",
+				offsetX: number,
+				offsetY: number,
+				width?: number,
+				height?: number,
+				rotationOffset?: number
+			): void;
+			setCollider(
+				collider: "circle",
+				offsetX: number,
+				offsetY: number,
+				radius?: number
+			): void;
+			setCollider(collider: "point", offsetX: number, offsetY: number): void;
+			overlap(target: SpriteOrGroup): boolean;
+	
+			setVelocity(vx: number, vy: number): void;
+			addToGroup(group: Group): void;
+	
+		}
+	
+		interface Group<T = {}> extends Array<Sprite & T> {
+			add(sprite: Sprite & T): void;
+			remove(sprite: Sprite): void;
+			clear(): void;
+			contains(sprite: Sprite): boolean;
+			get(i: number): Sprite;
+	
+			isTouching(target: SpriteOrGroup): boolean;
+			bounce(target: SpriteOrGroup): void;
+			bounceOff(target: SpriteOrGroup): void;
+			collide(target: SpriteOrGroup): void;
+			displace(target: SpriteOrGroup): void;
+			overlap(target: SpriteOrGroup): boolean;
+	
+			/** Returns the highest depth in a group. */
+			maxDepth(): number;
+	
+			/** Returns the lowest depth in a group. */
+			minDepth(): number;
+	
+			/** Removes all the sprites in a group from the animation. */
+			destroyEach(): void;
+	
+			/** Rotate every sprite in the group to face the (x,y) coordinate. */
+			pointToEach(x: number, y: number): void;
+	
+			/** Sets the image or animation for every sprite in the group. */
+			setAnimationEach(label: string): void;
+	
+			setRotationEach(rotation: number): void;
+	
+			setScaleEach(scale: number): void;
+	
+			setVisibleEach(visible: boolean): void;
+	
+			setColorEach(color: p5.ColorChoice): void;
+	
+			setColliderEach(collider: "rectangle" | "circle" | "point"): void;
+			setColliderEach(
+				collider: "rectangle",
+				offsetX: number,
+				offsetY: number,
+				width: number,
+				height: number,
+				rotationOffset: number
+			): void;
+			setColliderEach(
+				collider: "circle",
+				offsetX: number,
+				offsetY: number,
+				radius: number
+			): void;
+			setColliderEach(
+				collider: "point",
+				offsetX: number,
+				offsetY: number
+			): void;
+	
+			setVelocityXEach(vx: number): void;
+			setVelocityYEach(vy: number): void;
+			setVelocityEach(vx: number, vy: number): void;
+	
+			/**
+			 * Set the speed and direction of every sprite in the group.
+			 */
+			setSpeedAndDirectionEach(speed: number, direction: number): void;
+		}
 	}
-
-	interface Group<T = {}> extends Array<Sprite & T> {
-		add(sprite: Sprite & T): void;
-		remove(sprite: Sprite): void;
-		clear(): void;
-		contains(sprite: Sprite): boolean;
-		get(i: number): Sprite;
-
-		isTouching(target: SpriteOrGroup): boolean;
-		bounce(target: SpriteOrGroup): void;
-		bounceOff(target: SpriteOrGroup): void;
-		collide(target: SpriteOrGroup): void;
-		displace(target: SpriteOrGroup): void;
-		overlap(target: SpriteOrGroup): boolean;
-
-		/** Returns the highest depth in a group. */
-		maxDepth(): number;
-
-		/** Returns the lowest depth in a group. */
-		minDepth(): number;
-
-		/** Removes all the sprites in a group from the animation. */
-		destroyEach(): void;
-
-		/** Rotate every sprite in the group to face the (x,y) coordinate. */
-		pointToEach(x: number, y: number): void;
-
-		/** Sets the image or animation for every sprite in the group. */
-		setAnimationEach(label: string): void;
-
-		setRotationEach(rotation: number): void;
-
-		setScaleEach(scale: number): void;
-
-		setVisibleEach(visible: boolean): void;
-
-		setColorEach(color: p5.ColorChoice): void;
-
-		setColliderEach(collider: "rectangle" | "circle" | "point"): void;
-		setColliderEach(
-			collider: "rectangle",
-			offsetX: number,
-			offsetY: number,
-			width: number,
-			height: number,
-			rotationOffset: number
-		): void;
-		setColliderEach(
-			collider: "circle",
-			offsetX: number,
-			offsetY: number,
-			radius: number
-		): void;
-		setColliderEach(
-			collider: "point",
-			offsetX: number,
-			offsetY: number
-		): void;
-
-		setVelocityXEach(vx: number): void;
-		setVelocityYEach(vy: number): void;
-		setVelocityEach(vx: number, vy: number): void;
-
-		/**
-		 * Set the speed and direction of every sprite in the group.
-		 */
-		setSpeedAndDirectionEach(speed: number, direction: number): void;
-	}
-}
-
-export namespace Bruh {
-	function e(): void;
-}
-
-declare global {
 	function createGraphics(
 		x: number,
 		y: number,
@@ -499,6 +494,7 @@ declare global {
 
 	//special stuff
 	function loadFont(font: string): p5.Font;
+	function loadImage(image: string): p5.Image;
 
 	function rectMode(mode: "center" | "corners" | "corner" | "radius"): void;
 	function imageMode(mode: "center" | "corners" | "corner"): void;
@@ -531,6 +527,8 @@ declare global {
 	const QUAD_STRIP = "quad_strip";
 
 	const CLOSE = "close";
+	const width = 400;
+	const height = 400;
 
 	/** @readonly */
 	let keyCode: number;
@@ -547,6 +545,8 @@ declare global {
 		readonly frameCount: number;
 		readonly mouseX: number;
 		readonly mouseY: number;
+		readonly width: number;
+		readonly height: number;
 	};
 
 
@@ -568,3 +568,5 @@ declare global {
 		readonly init: true;
 	};
 }
+
+export {};
